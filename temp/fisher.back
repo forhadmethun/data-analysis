@@ -1,0 +1,51 @@
+]
+# let's do two quick examples.
+# print('impurity using entropy:', compute_impurity(df, IMPURITY_TYPE.ENTROYPY))
+# print('impurity using gini index:', compute_impurity(df, IMPURITY_TYPE.GINI_INDEX))
+#
+# for feature in df.drop(columns = 'id').columns:
+#     #feature_info_gain = comp_feature_information_gain(df, 'vegetation', feature, split_criterion)
+#     print('Feature name: ' + feature)
+#     print('\t gini index: ' + str(compute_impurity(df[feature], IMPURITY_TYPE.GINI_INDEX)))
+#     print('\t entropy: ' + str(compute_impurity(df[feature], IMPURITY_TYPE.ENTROYPY)))
+
+
+print(df.head())
+
+print(df.isnull().sum())
+
+column_headers = df.columns.values.tolist()
+
+header_attack_cat = df['attack_cat'].tolist()
+
+attack_categories = set(df['attack_cat'].tolist())
+
+category_item_count = {}
+category_item_list = {}
+for category in attack_categories:
+    category_item_count[category] = 0
+    category_item_list[category] = []
+
+for category in header_attack_cat:
+    category_item_count[category] = category_item_count[category] + 1
+header_dur = df['dur'].tolist();
+
+for index,val in enumerate(header_dur):
+    category_item_list[header_attack_cat[index]].append(val)
+
+
+#calculate the fisher
+
+u = mean(header_dur)
+F = 0
+num = 0
+den = 0
+for i, (k, v) in enumerate(category_item_list.items()):
+    uj = mean(v)
+    oj = std(v)
+    pj = len(v)/len(header_dur)
+    num = num + pj * (uj - u)**2
+    den = den + pj * oj ** 2
+
+    print(i, k, v)
+F = num/ den

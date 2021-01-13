@@ -1,39 +1,32 @@
 import pandas as pd
-import numpy as np
-
-from enum import Enum
-
-class IMPURITY_TYPE(Enum):
-    GINI_INDEX = 0
-    ENTROYPY = 1
-
-def compute_impurity(feature, impurity_criterion):
-
-    probs = feature.value_counts(normalize=True)
-
-    if impurity_criterion == IMPURITY_TYPE.ENTROYPY:
-        impurity = -1 * np.sum(np.log2(probs) * probs)
-    elif impurity_criterion == IMPURITY_TYPE.GINI_INDEX:
-        impurity = 1 - np.sum(np.square(probs))
-    else:
-        raise ValueError('Unknown impurity criterion')
-
-    return (round(impurity, 3))
-
+from numpy import *
+import json
 
 df = pd.read_csv('data/training.csv')
 
-# let's do two quick examples.
-# print('impurity using entropy:', compute_impurity(df, IMPURITY_TYPE.ENTROYPY))
-# print('impurity using gini index:', compute_impurity(df, IMPURITY_TYPE.GINI_INDEX))
-#
-# for feature in df.drop(columns = 'id').columns:
-#     #feature_info_gain = comp_feature_information_gain(df, 'vegetation', feature, split_criterion)
-#     print('Feature name: ' + feature)
-#     print('\t gini index: ' + str(compute_impurity(df[feature], IMPURITY_TYPE.GINI_INDEX)))
-#     print('\t entropy: ' + str(compute_impurity(df[feature], IMPURITY_TYPE.ENTROYPY)))
+fisher_score = {}
 
+for feature in df.drop(columns = ['id', 'proto', 'service', 'state', 'attack_cat', 'label']).columns:
+    header_attack_cat = df['attack_cat'].tolist()
+    attack_categories = set(df['attack_cat'].tolist())
+    category_item_list = {}
+    for category in attack_categories:
+        category_item_list[category] = []
+    header_feature = df[feature].tolist()
+    for index, val in enumerate(header_feature):
+        category_item_list[header_attack_cat[index]].append(val)
+    u = mean(header_feature)
+    F = 0
+    num = 0
+    den = 0
+    for i, (k, v) in enumerate(category_item_list.items()):
+        uj = mean(v)
+        oj = std(v)
+        pj = len(v) / len(header_feature)
+        num = num + pj * (uj - u) ** 2
+        den = den + pj * oj ** 2
+    F = num / den
+    fisher_score[feature] = F
+fisher_score = {k: v for k, v in sorted(fisher_score.items(), key=lambda item: item[1], reverse=True)}
+print(json.dumps(fisher_score, indent=2))
 
-print(df.head())
-
-print(df.isnull().sum())
