@@ -2,7 +2,7 @@ import pandas as pd
 from numpy import *
 import json
 
-df = pd.read_csv('../data/training.csv')
+df = pd.read_csv('../../data/training.csv')
 
 fisher_score = {}
 

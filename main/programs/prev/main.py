@@ -21,7 +21,7 @@ def compute_impurity(feature, impurity_criterion):
     return (round(impurity, 3))
 
 
-df = pd.read_csv('data/training.csv')
+df = pd.read_csv('../data/training.csv')
 
 # let's do two quick examples.
 print('impurity using entropy:', compute_impurity(df, IMPURITY_TYPE.ENTROYPY))

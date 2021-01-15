@@ -44,8 +44,8 @@ def applyKnn(X_train, X_test, y_train, y_test , X, y):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv('../data/training.csv')
-    df_back = pd.read_csv('../data/training.csv')
+    df = pd.read_csv('../../data/training.csv')
+    df_back = pd.read_csv('../../data/training.csv')
     fisher_score = {}
     for feature in df.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat', 'label']).columns:
         header_attack_cat = df['attack_cat'].tolist()

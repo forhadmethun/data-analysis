@@ -8,8 +8,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 
 
-df = pd.read_csv('../data/training.csv')
-df_back = pd.read_csv('../data/training.csv')
+df = pd.read_csv('../../data/training.csv')
+df_back = pd.read_csv('../../data/training.csv')
 
 fisher_score = {}
 
