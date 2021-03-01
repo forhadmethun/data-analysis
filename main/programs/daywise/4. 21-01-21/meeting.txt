@@ -1,0 +1,97 @@
+# 22.01.21
+
+upto 30 features
+- reduce the number of data
+7 class
+
+
+sample data of : 10k data
+	- balanced
+
+
+
+** what are thire results!!!
+
+for some attack type: resoanbale, for some it's not
+	=> as ML: binary classifier
+		=> whih classifier perform worst
+
+
+HY:		=> learning model like fazzer & normal data, and detect fuzzer
+				=> exploit and no exploit
+
+9 models(binary) classifier
+	-> intermediate step
+		-> what causes the problem
+	=	SN >
+		High Accuuracy > in worms
+			=> need sepration
+		Worst accuracy <
+			create problem
+
+		matrix > fazzer -> worm
+			fazzer -> shellcode
+			fazzer ->
+
+			fazzer-> reduce data, take 1k
+
+
+{'Fuzzers', 'Exploits', 'Worms', 'Shellcode', 'Generic', 'Analysis', 'Backdoor', 'DoS', 'Reconnaissance', 'Normal'}
+
+
+
+
+
+
+
+fazzer is 1
+all other is 0
+
+
+8 thousand for one cclass
+8 thousand for all
+
+
+what would be shellcode?
+
+
+130 of each data, and do the same
+
+
+
+
+
+
+->
+
+
+how low we can go!!
+
+
+
+
+1. multiclass for 1 thousand
+
+
+2. binary classifier for each
+
+
+features : 3, 10, 25
+
+
+
+
+cross val score:
+
+scilearn model selection
+	=> cross val -> score
+		=> accuracy from cross val socre
+
+		do all model is cross validation
+		!!
+
+>what does it mean: cross validaiton**
+tuesday -> class > entrie understanding of learning
+
+
+

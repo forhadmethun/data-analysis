@@ -6,9 +6,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn import svm
 from sklearn.metrics import confusion_matrix, classification_report
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.tree import DecisionTreeClassifier
+
 
 def applyLogisticRegression(X_train, X_test, y_train, y_test , X, y, i):
     k = 3
@@ -21,8 +24,10 @@ def applyLogisticRegression(X_train, X_test, y_train, y_test , X, y, i):
     # print(confusion_matrix(y_test, preds))
     print(classification_report(y_test, preds))
     print(score)
+    return i, score
 
 def applyKnn(X_train, X_test, y_train, y_test , X, y, i):
+    print("=== KNN === : " + str(i))
     k = 3# //todo: need to find the value of k
     if i < k:
         k = i
@@ -44,6 +49,30 @@ def applyKnn(X_train, X_test, y_train, y_test , X, y, i):
     knn.fit(X_train, y_train)
     preds = knn.predict(X_test)
     score = knn.score(X, y)
+    print(confusion_matrix(y_test, preds))
+    print(classification_report(y_test, preds))
+    print(score)
+    return i, score
+
+def applyDT(X_train, X_test, y_train, y_test , X, y, i):
+    print("=== DT=== : " + str(i))
+    dt = DecisionTreeClassifier()
+    dt.fit(X_train, y_train)
+    preds = dt.predict(X_test)
+    score = dt.score(X, y)
+    print(confusion_matrix(y_test, preds))
+    print(classification_report(y_test, preds))
+    print(score)
+    return i, score
+
+def applySVM(X_train, X_test, y_train, y_test , X, y, i):
+    if i <= 1 :
+        return 1, []
+    print("=== SVM === :" + str(i))
+    clf = svm.SVC(kernel='linear')
+    clf.fit(X_train, y_train)
+    preds = clf.predict(X_test)
+    score = clf.score(X, y)
     print(confusion_matrix(y_test, preds))
     print(classification_report(y_test, preds))
     print(score)
@@ -86,9 +115,12 @@ if __name__ == "__main__":
     print(json.dumps(fisher_score, indent=2))
     sorted_features = list(fisher_score.keys())
     i = 1
-    j = 12
+    j = 30
     feature_list = []
     score_list = []
+    dt_score_list = []
+    svm_score_list = []
+    lr_score_list = []
     for i in range(i, j + 1):
         df1 = df[sorted_features[:i + 1]]
         x = 0
@@ -100,10 +132,18 @@ if __name__ == "__main__":
         y = df_back['attack_cat']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
-        # applyLogisticRegression(X_train, X_test, y_train, y_test , X, y, i )
+        i,score = applyLogisticRegression(X_train, X_test, y_train, y_test , X, y, i )
+        lr_score_list.append(score)
+
         i, score = applyKnn(X_train, X_test, y_train, y_test , X, y, i)
         feature_list.append(i)
         score_list.append(score)
+
+        i, score = applyDT(X_train, X_test, y_train, y_test, X, y, i)
+        dt_score_list.append(score)
+
+        # i, score = applySVM(X_train, X_test, y_train, y_test, X, y, i)
+        # svm_score_list.append(score)
 
         # logisticRegr = LogisticRegression()
         # logisticRegr.fit(X_train, y_train)
@@ -115,7 +155,14 @@ if __name__ == "__main__":
 
     # define data values
     x = np.array(feature_list)  # X-axis points
-    y = np.array(score_list)  # Y-axis points
+    y_knn = np.array(score_list)  # Y-axis points
+    y_dt = np.array(dt_score_list)
+    # y_svm = np.array(svm_score_list)
+    y_lr = np.array(lr_score_list)
 
-    plt.plot(x, y)  # Plot the chart
+    plt.plot(x, y_knn, label = "knn")
+    plt.plot(x, y_dt, label = "dt")
+    # plt.plot(x, y_svm, label = "svm")
+    plt.plot(x, y_lr, label = "lr")
+    plt.legend()
     plt.show()
