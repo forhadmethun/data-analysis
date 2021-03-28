@@ -1,0 +1,1 @@
+- figuring out natural clustering so mapping with category, and their corresponding cluster

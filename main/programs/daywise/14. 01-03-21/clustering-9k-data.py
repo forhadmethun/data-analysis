@@ -106,7 +106,7 @@ def kmean(mat):
     score = sklearn.metrics.silhouette_score(mat, labels, metric='euclidean')
     plt.scatter(X[:, 0], X[:, 1], c=km.labels_, cmap='rainbow')
     print(score)
-    # silhouette(X)
+    silhouette(X)
 
 def silhouette(X):
     print("============================================")
@@ -202,10 +202,17 @@ if __name__ == "__main__":
     df_for_normalize = pd.read_csv('../../data/training.csv')
     df_normalized = normalize_datagram(df_for_normalize, 1000) #1k of each cat
     df1_back = df_normalized.copy(deep=True)
-    entropy_list = compute_entropy_sorted(df1_back)
+    sorted_entropy_list = compute_entropy_sorted(df1_back)
     dataset = df1_back
-    dataset.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat', 'label'], axis=1, inplace=True)
-    mat = dataset.values
-    kmean(mat)
+    dataset.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat'], axis=1, inplace=True)
+    feature_list = [2, 3, 5, 10, 20]
+    for i in range(0, len(feature_list)):
+        print("Features: " )
+        print(sorted_entropy_list[:feature_list[i]])
+        print("Score: ")
+        df1 = dataset[sorted_entropy_list[:feature_list[i]]]
+        mat = df1.values
+        kmean(mat)
+        print("-----------------")
 
 plt.show()
