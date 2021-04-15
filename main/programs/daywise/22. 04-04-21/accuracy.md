@@ -1,0 +1,3545 @@
+# pool based
+0.608053
+0.608382
+0.611774
+0.607835
+0.604880
+0.603786
+0.609038
+0.607835
+0.611883
+0.618011
+0.615932
+0.611993
+0.625342
+0.631798
+0.626655
+0.632783
+0.620856
+0.632564
+0.632235
+0.638144
+0.640333
+0.630156
+0.627530
+0.630922
+0.633549
+0.642959
+0.643396
+0.633767
+0.632783
+0.634862
+0.642959
+0.633330
+0.632673
+0.633986
+0.637159
+0.637488
+0.636831
+0.635846
+0.638582
+0.633439
+0.640770
+0.645038
+0.655214
+0.644162
+0.646132
+0.647226
+0.640551
+0.647445
+0.654557
+0.655323
+0.660028
+0.658825
+0.658606
+0.652041
+0.651712
+0.658934
+0.658825
+0.660904
+0.663421
+0.664186
+0.664734
+0.663858
+0.663202
+0.649415
+0.659481
+0.663421
+0.659372
+0.660685
+0.652807
+0.660904
+0.661232
+0.657512
+0.664186
+0.666375
+0.665828
+0.665937
+0.665390
+0.657840
+0.665828
+0.665281
+0.666156
+0.660685
+0.667907
+0.666594
+0.666703
+0.657074
+0.664515
+0.668454
+0.667250
+0.664515
+0.667250
+0.666156
+0.668344
+0.663968
+0.666156
+0.667360
+0.668016
+0.668673
+0.665718
+0.656089
+0.671299
+0.669110
+0.673378
+0.672721
+0.662873
+0.671080
+0.670861
+0.669876
+0.669986
+0.669658
+0.666922
+0.673706
+0.675238
+0.669548
+0.676113
+0.676223
+0.672174
+0.674034
+0.665390
+0.673816
+0.675895
+0.674472
+0.674800
+0.676332
+0.676442
+0.676223
+0.669876
+0.676770
+0.676113
+0.668673
+0.676879
+0.676551
+0.676660
+0.679177
+0.677317
+0.670533
+0.677208
+0.678411
+0.674363
+0.677098
+0.674581
+0.667031
+0.672831
+0.676004
+0.675895
+0.675347
+0.677864
+0.680162
+0.682022
+0.682350
+0.679834
+0.679396
+0.681913
+0.680271
+0.678958
+0.680818
+0.681584
+0.682350
+0.684867
+0.682679
+0.681147
+0.680928
+0.681694
+0.684429
+0.683773
+0.681913
+0.684867
+0.682460
+0.684648
+0.682460
+0.683992
+0.685086
+0.683007
+0.685961
+0.684320
+0.683663
+0.684976
+0.685852
+0.684976
+0.686399
+0.686508
+0.687384
+0.686618
+0.687055
+0.685961
+0.686180
+0.685086
+0.686618
+0.687055
+0.685961
+0.688369
+0.688259
+0.688259
+0.688697
+0.688150
+0.690229
+0.689025
+0.690448
+0.690338
+0.688478
+0.690338
+0.689682
+0.689682
+0.689572
+0.690557
+0.691104
+0.687712
+0.690776
+0.689900
+0.690995
+0.691104
+0.690776
+0.693183
+0.692089
+0.692636
+0.692745
+0.691761
+0.691432
+0.692198
+0.691870
+0.692198
+0.691432
+0.692745
+0.693292
+0.692855
+0.692527
+0.694387
+0.691979
+0.692745
+0.693730
+0.694168
+0.694387
+0.693730
+0.693949
+0.693730
+0.694058
+0.694058
+0.693511
+0.694168
+0.693840
+0.694168
+0.694715
+0.693730
+0.695481
+0.695371
+0.692964
+0.694934
+0.694715
+0.696466
+0.697669
+0.695481
+0.697998
+0.696247
+0.698873
+0.697779
+0.697779
+0.698326
+0.698216
+0.697232
+0.698435
+0.698326
+0.696794
+0.699092
+0.699748
+0.699201
+0.699639
+0.699420
+0.697888
+0.698435
+0.699529
+0.699311
+0.698654
+0.697998
+0.700077
+0.700843
+0.701061
+0.699967
+0.701171
+0.700733
+0.701827
+0.701718
+0.700733
+0.701499
+0.700843
+0.701390
+0.701171
+0.700186
+0.700186
+0.700952
+0.700077
+0.699858
+0.701718
+0.702156
+0.702374
+0.701499
+0.703250
+0.703359
+0.702703
+0.702374
+0.702812
+0.702703
+0.703031
+0.703578
+0.703140
+0.703140
+0.704344
+0.703250
+0.703797
+0.704125
+0.704235
+0.704453
+0.704891
+0.704891
+0.704344
+0.704782
+0.705001
+0.704235
+0.705001
+0.704235
+0.704672
+0.703578
+0.704782
+0.704782
+0.704672
+0.704235
+0.703031
+0.704125
+0.670971
+0.670205
+0.670971
+0.670205
+0.671080
+0.671408
+0.671080
+0.671518
+0.670533
+0.671627
+0.670971
+0.670314
+0.671627
+0.671627
+0.671518
+0.671518
+0.670095
+0.671518
+0.671627
+0.671846
+0.669986
+0.670861
+0.671408
+0.669876
+0.671408
+0.670423
+0.670533
+0.671299
+0.671408
+0.670971
+0.671627
+0.670861
+0.670423
+0.671627
+0.671518
+0.671518
+0.670861
+0.670095
+0.671518
+0.671408
+0.671627
+0.671299
+0.669220
+0.671080
+0.670642
+0.671627
+0.671408
+0.671518
+0.671518
+0.671408
+0.670861
+0.671627
+0.670861
+0.671408
+0.670861
+0.671408
+0.671518
+0.670752
+0.671518
+0.681694
+0.682460
+0.670205
+0.681147
+0.682350
+0.681694
+0.681913
+0.681694
+0.681913
+0.682350
+0.681256
+0.682022
+0.681584
+0.681913
+0.681913
+0.681913
+0.680818
+0.682022
+0.682569
+0.682022
+0.681584
+0.682569
+0.681913
+0.682350
+0.681803
+0.682022
+0.681913
+0.682569
+0.681803
+0.682460
+0.682569
+0.681803
+0.682569
+0.681366
+0.681913
+0.682350
+0.682460
+0.681913
+0.682022
+0.681584
+0.680490
+0.680928
+0.682460
+0.682022
+0.681913
+0.682350
+0.681913
+0.682569
+0.682460
+0.682132
+0.681037
+0.682022
+0.681256
+0.681913
+0.682022
+0.682022
+0.682569
+0.681803
+0.682460
+0.681803
+0.682460
+0.682022
+0.681147
+0.682460
+0.682022
+0.682569
+0.682569
+0.682460
+0.682350
+0.681256
+0.681694
+0.682350
+0.682460
+0.682022
+0.682350
+0.682460
+0.680709
+0.682132
+0.682679
+0.682569
+0.682569
+0.681366
+0.680928
+0.682788
+0.682679
+0.681913
+0.682132
+0.682132
+0.682022
+0.682460
+0.682241
+0.680818
+0.682022
+0.682241
+0.681803
+0.681256
+0.681584
+0.682569
+0.681584
+0.683445
+0.683007
+0.682788
+0.682897
+0.682788
+0.682241
+0.682897
+0.681147
+0.682788
+0.681803
+0.681584
+0.682460
+0.683007
+0.682241
+0.682679
+0.682788
+
+# stream based
+0.610680
+0.602582
+0.605537
+0.599081
+0.607835
+0.603348
+0.610023
+0.608929
+0.609476
+0.612977
+0.612102
+0.605537
+0.609914
+0.609476
+0.614947
+0.611008
+0.607616
+0.612868
+0.615275
+0.609476
+0.613634
+0.613743
+0.622935
+0.623044
+0.624248
+0.622606
+0.628515
+0.625014
+0.621731
+0.631360
+0.625889
+0.623919
+0.628187
+0.631251
+0.630594
+0.628406
+0.632345
+0.627968
+0.627640
+0.631798
+0.630266
+0.630485
+0.628296
+0.629828
+0.646351
+0.646788
+0.643725
+0.643725
+0.645147
+0.645804
+0.647773
+0.646788
+0.649086
+0.647554
+0.646351
+0.645366
+0.647226
+0.648102
+0.647773
+0.649962
+0.651056
+0.648102
+0.652150
+0.652916
+0.651384
+0.652369
+0.651603
+0.650618
+0.648758
+0.650728
+0.653901
+0.650071
+0.649743
+0.650728
+0.650071
+0.655433
+0.650837
+0.650071
+0.649633
+0.652150
+0.649852
+0.651822
+0.653244
+0.653135
+0.650837
+0.650181
+0.650509
+0.651712
+0.652260
+0.651712
+0.653682
+0.653354
+0.653025
+0.654120
+0.655542
+0.654667
+0.654995
+0.655542
+0.655980
+0.656527
+0.656636
+0.657183
+0.652260
+0.656418
+0.655323
+0.654557
+0.657621
+0.655214
+0.657512
+0.657183
+0.654995
+0.659700
+0.658168
+0.656089
+0.654339
+0.659044
+0.659919
+0.656089
+0.658934
+0.656308
+0.658278
+0.660138
+0.658715
+0.652041
+0.658059
+0.657840
+0.655323
+0.653463
+0.657074
+0.656636
+0.655433
+0.657621
+0.656746
+0.656089
+0.659044
+0.658278
+0.659263
+0.659153
+0.660576
+0.658387
+0.659153
+0.659591
+0.659481
+0.657512
+0.660138
+0.659372
+0.658497
+0.656746
+0.656965
+0.661013
+0.659591
+0.656418
+0.659591
+0.658715
+0.657840
+0.659153
+0.659372
+0.657293
+0.660794
+0.660138
+0.660138
+0.661451
+0.660685
+0.662545
+0.661451
+0.658059
+0.660466
+0.663311
+0.662983
+0.663858
+0.663421
+0.664186
+0.663639
+0.662983
+0.662326
+0.663421
+0.662326
+0.660794
+0.665062
+0.663639
+0.663639
+0.661670
+0.661998
+0.664077
+0.666813
+0.664734
+0.664734
+0.663749
+0.665500
+0.665937
+0.664843
+0.658606
+0.665718
+0.665062
+0.664734
+0.665609
+0.665062
+0.664296
+0.667688
+0.667907
+0.664186
+0.663858
+0.667031
+0.667469
+0.665718
+0.667797
+0.666813
+0.666265
+0.667469
+0.667031
+0.667360
+0.666484
+0.667579
+0.665500
+0.664843
+0.665500
+0.666265
+0.666265
+0.668016
+0.666594
+0.668235
+0.665828
+0.667579
+0.665171
+0.668454
+0.667907
+0.664624
+0.666813
+0.665937
+0.669548
+0.669220
+0.669329
+0.670752
+0.667579
+0.670533
+0.671080
+0.672612
+0.670423
+0.668454
+0.672831
+0.670752
+0.674034
+0.675566
+0.672284
+0.674363
+0.670752
+0.672393
+0.672612
+0.673487
+0.674581
+0.671955
+0.673597
+0.672502
+0.673706
+0.671955
+0.674800
+0.671737
+0.674910
+0.673816
+0.674581
+0.673159
+0.671846
+0.673597
+0.672940
+0.672174
+0.675457
+0.674363
+0.675347
+0.675238
+0.675785
+0.671737
+0.673925
+0.672721
+0.674472
+0.672721
+0.671408
+0.674144
+0.673925
+0.674144
+0.672284
+0.672502
+0.672065
+0.674910
+0.675566
+0.674144
+0.674800
+0.674691
+0.674472
+0.673378
+0.675566
+0.677645
+0.674363
+0.672721
+0.673597
+0.676442
+0.672940
+0.674144
+0.674472
+0.675019
+0.674363
+0.673925
+0.674581
+0.675457
+0.675129
+0.675676
+0.675238
+0.674144
+0.675676
+0.675895
+0.677426
+0.675676
+0.676223
+0.675347
+0.674581
+0.675347
+0.676113
+0.674144
+0.675238
+0.675347
+0.675676
+0.676113
+0.675785
+0.676551
+0.677208
+0.675785
+0.676223
+0.674800
+0.676332
+0.675566
+0.675785
+0.676770
+0.675566
+0.676989
+0.677864
+0.676223
+0.677974
+0.678521
+0.679177
+0.679943
+0.680053
+0.677974
+0.678302
+0.679177
+0.678521
+0.679834
+0.679287
+0.678411
+0.680162
+0.679396
+0.679177
+0.678411
+0.679287
+0.677755
+0.678192
+0.677864
+0.679615
+0.680162
+0.679287
+0.681037
+0.678958
+0.678192
+0.679505
+0.680053
+0.679943
+0.678083
+0.679177
+0.679287
+0.677864
+0.680600
+0.681694
+0.679287
+0.679396
+0.679834
+0.679505
+0.680818
+0.681147
+0.679505
+0.680818
+0.678849
+0.679943
+0.679177
+0.680053
+0.679834
+0.680818
+0.679943
+0.678630
+0.680271
+0.680381
+0.678630
+0.679943
+0.679834
+0.680271
+0.679396
+0.680600
+0.679505
+0.679396
+0.681037
+0.680818
+0.678630
+0.681475
+0.680162
+0.680490
+0.680381
+0.680709
+0.679724
+0.680271
+0.681256
+0.681256
+0.680709
+0.679177
+0.679396
+0.680053
+0.680818
+0.679834
+0.681037
+0.680709
+0.680490
+0.682022
+0.681256
+0.681694
+0.682022
+0.681037
+0.679943
+0.679505
+0.679505
+0.680271
+0.681037
+0.679287
+0.680600
+0.680162
+0.680600
+0.679505
+0.680053
+0.681694
+0.681256
+0.680490
+0.682241
+0.680490
+0.681584
+0.681037
+0.680709
+0.680709
+0.680271
+0.679396
+0.681256
+0.678302
+0.680381
+0.680162
+0.680381
+0.680162
+0.680709
+0.681147
+0.679724
+0.680928
+0.679724
+0.679505
+0.679615
+0.680709
+0.681584
+0.681147
+0.679724
+0.681366
+0.681037
+0.681147
+0.681694
+0.680600
+0.681366
+0.679615
+0.681913
+0.681366
+0.682350
+0.682132
+0.682132
+0.681694
+0.680381
+0.682897
+0.681037
+0.682350
+0.681584
+0.682679
+0.681147
+0.682132
+0.682132
+0.683663
+0.682241
+0.683445
+0.681256
+0.681913
+0.682241
+0.683663
+0.682132
+0.682132
+0.681037
+0.682569
+0.682460
+0.683445
+0.682022
+0.681803
+0.683882
+0.682460
+0.682241
+0.683335
+0.682897
+0.682022
+0.681913
+0.684976
+0.683116
+
+
+# query by committee
+0.603
+0.608
+0.620
+0.622
+0.621
+0.621
+0.623
+0.622
+0.622
+0.624
+0.625
+0.625
+0.626
+0.625
+0.627
+0.625
+0.626
+0.627
+0.628
+0.628
+0.629
+0.628
+0.630
+0.630
+0.629
+0.629
+0.629
+0.630
+0.630
+0.632
+0.632
+0.634
+0.634
+0.634
+0.633
+0.634
+0.635
+0.641
+0.641
+0.652
+0.655
+0.656
+0.660
+0.658
+0.658
+0.658
+0.659
+0.658
+0.660
+0.656
+0.662
+0.660
+0.660
+0.661
+0.662
+0.663
+0.664
+0.665
+0.662
+0.664
+0.665
+0.662
+0.666
+0.665
+0.665
+0.666
+0.666
+0.668
+0.667
+0.669
+0.669
+0.668
+0.668
+0.669
+0.669
+0.669
+0.671
+0.670
+0.670
+0.670
+0.670
+0.670
+0.671
+0.670
+0.671
+0.671
+0.671
+0.671
+0.671
+0.670
+0.670
+0.672
+0.671
+0.670
+0.671
+0.671
+0.671
+0.671
+0.670
+0.670
+0.672
+0.672
+0.672
+0.672
+0.674
+0.671
+0.675
+0.675
+0.674
+0.675
+0.674
+0.675
+0.675
+0.674
+0.676
+0.673
+0.676
+0.675
+0.674
+0.676
+0.675
+0.675
+0.675
+0.675
+0.675
+0.675
+0.675
+0.675
+0.676
+0.677
+0.675
+0.677
+0.677
+0.677
+0.678
+0.677
+0.677
+0.677
+0.677
+0.677
+0.678
+0.679
+0.678
+0.678
+0.678
+0.678
+0.679
+0.679
+0.679
+0.680
+0.680
+0.680
+0.679
+0.679
+0.680
+0.679
+0.679
+0.679
+0.680
+0.680
+0.680
+0.682
+0.682
+0.682
+0.681
+0.683
+0.682
+0.684
+0.684
+0.685
+0.684
+0.684
+0.686
+0.685
+0.685
+0.686
+0.686
+0.686
+0.685
+0.686
+0.686
+0.687
+0.687
+0.686
+0.687
+0.687
+0.687
+0.687
+0.687
+0.687
+0.687
+0.687
+0.687
+0.688
+0.687
+0.687
+0.687
+0.687
+0.688
+0.688
+0.688
+0.688
+0.688
+0.689
+0.690
+0.689
+0.690
+0.690
+0.690
+0.690
+0.690
+0.690
+0.690
+0.691
+0.691
+0.690
+0.691
+0.691
+0.691
+0.691
+0.692
+0.691
+0.692
+0.692
+0.693
+0.696
+0.696
+0.696
+0.696
+0.696
+0.696
+0.696
+0.696
+0.697
+0.697
+0.697
+0.697
+0.698
+0.698
+0.698
+0.698
+0.698
+0.698
+0.698
+0.699
+0.699
+0.699
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.700
+0.701
+0.700
+0.700
+0.701
+0.701
+0.701
+0.700
+0.700
+0.701
+0.701
+0.700
+0.701
+0.701
+0.701
+0.701
+0.701
+0.701
+0.700
+0.701
+0.701
+0.701
+0.701
+0.701
+0.701
+0.702
+0.702
+0.701
+0.701
+0.702
+0.701
+0.701
+0.701
+0.701
+0.702
+0.702
+0.702
+0.701
+0.701
+0.702
+0.702
+0.701
+0.702
+0.702
+0.701
+0.701
+0.701
+0.701
+0.702
+0.702
+0.701
+0.702
+0.702
+0.701
+0.701
+0.701
+0.702
+0.702
+0.702
+0.702
+0.701
+0.701
+0.702
+0.702
+0.701
+0.701
+0.701
+0.702
+0.702
+0.701
+0.702
+0.702
+0.702
+0.702
+0.701
+0.701
+0.702
+0.702
+0.701
+0.702
+0.702
+0.702
+0.701
+0.701
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.703
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.702
+0.703
+0.702
+0.702
+0.702
+0.702
+0.703
+0.702
+0.702
+0.703
+0.703
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.704
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+0.705
+
+# Basic RF vs AL 
+## Basic RF
+Initial prediction accuracy: 0.495459
+Initial prediction accuracy: 0.496116
+Initial prediction accuracy: 0.495897
+Initial prediction accuracy: 0.496116
+Initial prediction accuracy: 0.497210
+Initial prediction accuracy: 0.497210
+Initial prediction accuracy: 0.498960
+Initial prediction accuracy: 0.495897
+Initial prediction accuracy: 0.498304
+Initial prediction accuracy: 0.491848
+Initial prediction accuracy: 0.504103
+Initial prediction accuracy: 0.501258
+Initial prediction accuracy: 0.500383
+Initial prediction accuracy: 0.495459
+Initial prediction accuracy: 0.497429
+Initial prediction accuracy: 0.498304
+Initial prediction accuracy: 0.497647
+Initial prediction accuracy: 0.495897
+Initial prediction accuracy: 0.493927
+Initial prediction accuracy: 0.496225
+Initial prediction accuracy: 0.497757
+Initial prediction accuracy: 0.497429
+Initial prediction accuracy: 0.493599
+Initial prediction accuracy: 0.497866
+Initial prediction accuracy: 0.497757
+Initial prediction accuracy: 0.492395
+Initial prediction accuracy: 0.500164
+Initial prediction accuracy: 0.499726
+Initial prediction accuracy: 0.495568
+Initial prediction accuracy: 0.495459
+Initial prediction accuracy: 0.501040
+Initial prediction accuracy: 0.502571
+Initial prediction accuracy: 0.496991
+Initial prediction accuracy: 0.494912
+Initial prediction accuracy: 0.500055
+Initial prediction accuracy: 0.496881
+Initial prediction accuracy: 0.498413
+Initial prediction accuracy: 0.498085
+Initial prediction accuracy: 0.499836
+Initial prediction accuracy: 0.497866
+Initial prediction accuracy: 0.496663
+Initial prediction accuracy: 0.501040
+Initial prediction accuracy: 0.498523
+Initial prediction accuracy: 0.499726
+Initial prediction accuracy: 0.499945
+Initial prediction accuracy: 0.500492
+Initial prediction accuracy: 0.495568
+Initial prediction accuracy: 0.497210
+Initial prediction accuracy: 0.498413
+Initial prediction accuracy: 0.495021
+Initial prediction accuracy: 0.496225
+Initial prediction accuracy: 0.498523
+Initial prediction accuracy: 0.496991
+Initial prediction accuracy: 0.503775
+Initial prediction accuracy: 0.499179
+Initial prediction accuracy: 0.500274
+Initial prediction accuracy: 0.498413
+Initial prediction accuracy: 0.503666
+Initial prediction accuracy: 0.495459
+Initial prediction accuracy: 0.498632
+Initial prediction accuracy: 0.498523
+Initial prediction accuracy: 0.496772
+Initial prediction accuracy: 0.496991
+Initial prediction accuracy: 0.497976
+Initial prediction accuracy: 0.499070
+Initial prediction accuracy: 0.497429
+Initial prediction accuracy: 0.495897
+Initial prediction accuracy: 0.498523
+Initial prediction accuracy: 0.494474
+Initial prediction accuracy: 0.498195
+Initial prediction accuracy: 0.495350
+Initial prediction accuracy: 0.495240
+Initial prediction accuracy: 0.498413
+Initial prediction accuracy: 0.495568
+Initial prediction accuracy: 0.495131
+Initial prediction accuracy: 0.496334
+Initial prediction accuracy: 0.495568
+Initial prediction accuracy: 0.497210
+Initial prediction accuracy: 0.494255
+Initial prediction accuracy: 0.502571
+Initial prediction accuracy: 0.503994
+Initial prediction accuracy: 0.502243
+Initial prediction accuracy: 0.503994
+Initial prediction accuracy: 0.502243
+Initial prediction accuracy: 0.507386
+Initial prediction accuracy: 0.507824
+Initial prediction accuracy: 0.513623
+Initial prediction accuracy: 0.503775
+Initial prediction accuracy: 0.509137
+Initial prediction accuracy: 0.511653
+Initial prediction accuracy: 0.510121
+Initial prediction accuracy: 0.514717
+Initial prediction accuracy: 0.512748
+Initial prediction accuracy: 0.511763
+Initial prediction accuracy: 0.507495
+Initial prediction accuracy: 0.513514
+Initial prediction accuracy: 0.512200
+Initial prediction accuracy: 0.513185
+Initial prediction accuracy: 0.523471
+Initial prediction accuracy: 0.519313
+Initial prediction accuracy: 0.515921
+Initial prediction accuracy: 0.520516
+Initial prediction accuracy: 0.518000
+Initial prediction accuracy: 0.517672
+Initial prediction accuracy: 0.524674
+Initial prediction accuracy: 0.519969
+Initial prediction accuracy: 0.521501
+Initial prediction accuracy: 0.518875
+Initial prediction accuracy: 0.518000
+Initial prediction accuracy: 0.521064
+Initial prediction accuracy: 0.522158
+Initial prediction accuracy: 0.519969
+Initial prediction accuracy: 0.524127
+Initial prediction accuracy: 0.525331
+Initial prediction accuracy: 0.522377
+Initial prediction accuracy: 0.522924
+Initial prediction accuracy: 0.519313
+Initial prediction accuracy: 0.525222
+Initial prediction accuracy: 0.518985
+Initial prediction accuracy: 0.523799
+Initial prediction accuracy: 0.519751
+Initial prediction accuracy: 0.520954
+Initial prediction accuracy: 0.518437
+Initial prediction accuracy: 0.519532
+Initial prediction accuracy: 0.515483
+Initial prediction accuracy: 0.524784
+Initial prediction accuracy: 0.530146
+Initial prediction accuracy: 0.519313
+Initial prediction accuracy: 0.519203
+Initial prediction accuracy: 0.522267
+Initial prediction accuracy: 0.520407
+Initial prediction accuracy: 0.524237
+Initial prediction accuracy: 0.522048
+Initial prediction accuracy: 0.522924
+Initial prediction accuracy: 0.521830
+Initial prediction accuracy: 0.525003
+Initial prediction accuracy: 0.520735
+Initial prediction accuracy: 0.519641
+Initial prediction accuracy: 0.521173
+Initial prediction accuracy: 0.525331
+Initial prediction accuracy: 0.521173
+Initial prediction accuracy: 0.521064
+Initial prediction accuracy: 0.528832
+Initial prediction accuracy: 0.522705
+Initial prediction accuracy: 0.524674
+Initial prediction accuracy: 0.522048
+Initial prediction accuracy: 0.525878
+Initial prediction accuracy: 0.519094
+Initial prediction accuracy: 0.522924
+Initial prediction accuracy: 0.523471
+Initial prediction accuracy: 0.526316
+Initial prediction accuracy: 0.525003
+Initial prediction accuracy: 0.526753
+Initial prediction accuracy: 0.526535
+Initial prediction accuracy: 0.527191
+Initial prediction accuracy: 0.532115
+Initial prediction accuracy: 0.530583
+Initial prediction accuracy: 0.528942
+Initial prediction accuracy: 0.530802
+Initial prediction accuracy: 0.529927
+Initial prediction accuracy: 0.530802
+Initial prediction accuracy: 0.531568
+Initial prediction accuracy: 0.531459
+Initial prediction accuracy: 0.532443
+Initial prediction accuracy: 0.530802
+Initial prediction accuracy: 0.533866
+Initial prediction accuracy: 0.538024
+Initial prediction accuracy: 0.534413
+Initial prediction accuracy: 0.535945
+Initial prediction accuracy: 0.536711
+Initial prediction accuracy: 0.536054
+Initial prediction accuracy: 0.534413
+Initial prediction accuracy: 0.538790
+Initial prediction accuracy: 0.539009
+Initial prediction accuracy: 0.537039
+Initial prediction accuracy: 0.541854
+Initial prediction accuracy: 0.536601
+Initial prediction accuracy: 0.537696
+Initial prediction accuracy: 0.540431
+Initial prediction accuracy: 0.537696
+Initial prediction accuracy: 0.535617
+Initial prediction accuracy: 0.538243
+Initial prediction accuracy: 0.540103
+Initial prediction accuracy: 0.543385
+Initial prediction accuracy: 0.540103
+Initial prediction accuracy: 0.540541
+Initial prediction accuracy: 0.544480
+Initial prediction accuracy: 0.540103
+Initial prediction accuracy: 0.543167
+Initial prediction accuracy: 0.542072
+Initial prediction accuracy: 0.544151
+Initial prediction accuracy: 0.540431
+Initial prediction accuracy: 0.544699
+Initial prediction accuracy: 0.540431
+Initial prediction accuracy: 0.542729
+Initial prediction accuracy: 0.543823
+Initial prediction accuracy: 0.541854
+Initial prediction accuracy: 0.543167
+Initial prediction accuracy: 0.543276
+Initial prediction accuracy: 0.539665
+Initial prediction accuracy: 0.541088
+Initial prediction accuracy: 0.541306
+Initial prediction accuracy: 0.541416
+Initial prediction accuracy: 0.543823
+Initial prediction accuracy: 0.546668
+Initial prediction accuracy: 0.544808
+Initial prediction accuracy: 0.546230
+Initial prediction accuracy: 0.547106
+Initial prediction accuracy: 0.546340
+Initial prediction accuracy: 0.546996
+Initial prediction accuracy: 0.543714
+Initial prediction accuracy: 0.545574
+Initial prediction accuracy: 0.545574
+Initial prediction accuracy: 0.543823
+Initial prediction accuracy: 0.547543
+Initial prediction accuracy: 0.546012
+Initial prediction accuracy: 0.546668
+Initial prediction accuracy: 0.545793
+Initial prediction accuracy: 0.544808
+Initial prediction accuracy: 0.547106
+Initial prediction accuracy: 0.543823
+Initial prediction accuracy: 0.550170
+Initial prediction accuracy: 0.547325
+Initial prediction accuracy: 0.550279
+Initial prediction accuracy: 0.546121
+Initial prediction accuracy: 0.549951
+Initial prediction accuracy: 0.547981
+Initial prediction accuracy: 0.547653
+Initial prediction accuracy: 0.547434
+Initial prediction accuracy: 0.550498
+Initial prediction accuracy: 0.549513
+Initial prediction accuracy: 0.550060
+Initial prediction accuracy: 0.554546
+Initial prediction accuracy: 0.557391
+Initial prediction accuracy: 0.559470
+Initial prediction accuracy: 0.556625
+Initial prediction accuracy: 0.559689
+Initial prediction accuracy: 0.560346
+Initial prediction accuracy: 0.562315
+Initial prediction accuracy: 0.560018
+Initial prediction accuracy: 0.564504
+Initial prediction accuracy: 0.565817
+Initial prediction accuracy: 0.566692
+Initial prediction accuracy: 0.568990
+Initial prediction accuracy: 0.565379
+Initial prediction accuracy: 0.566692
+Initial prediction accuracy: 0.565270
+Initial prediction accuracy: 0.566692
+Initial prediction accuracy: 0.567896
+Initial prediction accuracy: 0.568115
+Initial prediction accuracy: 0.574023
+Initial prediction accuracy: 0.570960
+Initial prediction accuracy: 0.571288
+Initial prediction accuracy: 0.570522
+Initial prediction accuracy: 0.573914
+Initial prediction accuracy: 0.575118
+Initial prediction accuracy: 0.572820
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.573476
+Initial prediction accuracy: 0.574133
+Initial prediction accuracy: 0.567786
+Initial prediction accuracy: 0.575665
+Initial prediction accuracy: 0.575336
+Initial prediction accuracy: 0.569537
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.570303
+Initial prediction accuracy: 0.572820
+Initial prediction accuracy: 0.572710
+Initial prediction accuracy: 0.571944
+Initial prediction accuracy: 0.575884
+Initial prediction accuracy: 0.577963
+Initial prediction accuracy: 0.575118
+Initial prediction accuracy: 0.574023
+Initial prediction accuracy: 0.576650
+Initial prediction accuracy: 0.575336
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.577525
+Initial prediction accuracy: 0.575665
+Initial prediction accuracy: 0.573805
+Initial prediction accuracy: 0.576540
+Initial prediction accuracy: 0.575008
+Initial prediction accuracy: 0.571178
+Initial prediction accuracy: 0.575665
+Initial prediction accuracy: 0.576540
+Initial prediction accuracy: 0.576868
+Initial prediction accuracy: 0.576102
+Initial prediction accuracy: 0.575555
+Initial prediction accuracy: 0.579604
+Initial prediction accuracy: 0.575118
+Initial prediction accuracy: 0.575227
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.581355
+Initial prediction accuracy: 0.578510
+Initial prediction accuracy: 0.574571
+Initial prediction accuracy: 0.577963
+Initial prediction accuracy: 0.576759
+Initial prediction accuracy: 0.576321
+Initial prediction accuracy: 0.579494
+Initial prediction accuracy: 0.578400
+Initial prediction accuracy: 0.577306
+Initial prediction accuracy: 0.576212
+Initial prediction accuracy: 0.577634
+Initial prediction accuracy: 0.576431
+Initial prediction accuracy: 0.576650
+Initial prediction accuracy: 0.573367
+Initial prediction accuracy: 0.576102
+Initial prediction accuracy: 0.578072
+Initial prediction accuracy: 0.572163
+Initial prediction accuracy: 0.576650
+Initial prediction accuracy: 0.577306
+Initial prediction accuracy: 0.576868
+Initial prediction accuracy: 0.578619
+Initial prediction accuracy: 0.578291
+Initial prediction accuracy: 0.573914
+Initial prediction accuracy: 0.572601
+Initial prediction accuracy: 0.575884
+Initial prediction accuracy: 0.574899
+Initial prediction accuracy: 0.582339
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.571507
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.575993
+Initial prediction accuracy: 0.579604
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.580260
+Initial prediction accuracy: 0.577853
+Initial prediction accuracy: 0.575336
+Initial prediction accuracy: 0.577744
+Initial prediction accuracy: 0.577197
+Initial prediction accuracy: 0.577853
+Initial prediction accuracy: 0.575336
+Initial prediction accuracy: 0.573805
+Initial prediction accuracy: 0.572163
+Initial prediction accuracy: 0.573476
+Initial prediction accuracy: 0.574899
+Initial prediction accuracy: 0.574899
+Initial prediction accuracy: 0.576759
+Initial prediction accuracy: 0.578510
+Initial prediction accuracy: 0.574461
+Initial prediction accuracy: 0.572163
+Initial prediction accuracy: 0.578510
+Initial prediction accuracy: 0.577306
+Initial prediction accuracy: 0.578947
+Initial prediction accuracy: 0.576650
+Initial prediction accuracy: 0.574352
+Initial prediction accuracy: 0.576868
+Initial prediction accuracy: 0.577415
+Initial prediction accuracy: 0.571726
+Initial prediction accuracy: 0.579494
+Initial prediction accuracy: 0.575227
+Initial prediction accuracy: 0.574133
+Initial prediction accuracy: 0.577634
+Initial prediction accuracy: 0.576978
+Initial prediction accuracy: 0.573914
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.572820
+Initial prediction accuracy: 0.577525
+Initial prediction accuracy: 0.574133
+Initial prediction accuracy: 0.574899
+Initial prediction accuracy: 0.580151
+Initial prediction accuracy: 0.577087
+Initial prediction accuracy: 0.572163
+Initial prediction accuracy: 0.575993
+Initial prediction accuracy: 0.572492
+Initial prediction accuracy: 0.570741
+Initial prediction accuracy: 0.572382
+Initial prediction accuracy: 0.571944
+Initial prediction accuracy: 0.573257
+Initial prediction accuracy: 0.573805
+Initial prediction accuracy: 0.580808
+Initial prediction accuracy: 0.572273
+Initial prediction accuracy: 0.573039
+Initial prediction accuracy: 0.575774
+Initial prediction accuracy: 0.571178
+Initial prediction accuracy: 0.574023
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.573914
+Initial prediction accuracy: 0.575008
+Initial prediction accuracy: 0.573914
+Initial prediction accuracy: 0.569756
+Initial prediction accuracy: 0.570522
+Initial prediction accuracy: 0.569647
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.572382
+Initial prediction accuracy: 0.575118
+Initial prediction accuracy: 0.573148
+Initial prediction accuracy: 0.574133
+Initial prediction accuracy: 0.576431
+Initial prediction accuracy: 0.574352
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.575555
+Initial prediction accuracy: 0.575446
+Initial prediction accuracy: 0.571944
+Initial prediction accuracy: 0.577087
+Initial prediction accuracy: 0.569428
+Initial prediction accuracy: 0.572273
+Initial prediction accuracy: 0.570522
+Initial prediction accuracy: 0.573039
+Initial prediction accuracy: 0.571397
+Initial prediction accuracy: 0.572929
+Initial prediction accuracy: 0.569756
+Initial prediction accuracy: 0.573148
+Initial prediction accuracy: 0.572054
+Initial prediction accuracy: 0.567568
+Initial prediction accuracy: 0.573367
+Initial prediction accuracy: 0.571835
+Initial prediction accuracy: 0.570631
+Initial prediction accuracy: 0.567568
+Initial prediction accuracy: 0.571726
+Initial prediction accuracy: 0.572273
+Initial prediction accuracy: 0.571726
+Initial prediction accuracy: 0.570303
+Initial prediction accuracy: 0.575118
+Initial prediction accuracy: 0.574242
+Initial prediction accuracy: 0.569647
+Initial prediction accuracy: 0.569428
+Initial prediction accuracy: 0.573367
+Initial prediction accuracy: 0.573367
+Initial prediction accuracy: 0.566473
+Initial prediction accuracy: 0.574133
+Initial prediction accuracy: 0.572382
+Initial prediction accuracy: 0.573039
+Initial prediction accuracy: 0.572710
+Initial prediction accuracy: 0.571288
+Initial prediction accuracy: 0.570413
+Initial prediction accuracy: 0.568552
+Initial prediction accuracy: 0.570194
+Initial prediction accuracy: 0.573695
+Initial prediction accuracy: 0.570194
+Initial prediction accuracy: 0.572054
+Initial prediction accuracy: 0.571616
+Initial prediction accuracy: 0.571178
+Initial prediction accuracy: 0.575227
+Initial prediction accuracy: 0.572492
+Initial prediction accuracy: 0.570522
+Initial prediction accuracy: 0.569865
+Initial prediction accuracy: 0.566583
+Initial prediction accuracy: 0.566255
+Initial prediction accuracy: 0.569318
+Initial prediction accuracy: 0.568005
+Initial prediction accuracy: 0.563847
+Initial prediction accuracy: 0.569537
+Initial prediction accuracy: 0.569099
+Initial prediction accuracy: 0.566145
+Initial prediction accuracy: 0.568005
+Initial prediction accuracy: 0.567896
+Initial prediction accuracy: 0.569865
+Initial prediction accuracy: 0.568224
+Initial prediction accuracy: 0.566473
+Initial prediction accuracy: 0.563628
+Initial prediction accuracy: 0.568005
+Initial prediction accuracy: 0.567568
+Initial prediction accuracy: 0.566473
+Initial prediction accuracy: 0.568771
+Initial prediction accuracy: 0.564613
+Initial prediction accuracy: 0.569428
+Initial prediction accuracy: 0.569209
+Initial prediction accuracy: 0.569865
+Initial prediction accuracy: 0.563300
+Initial prediction accuracy: 0.570413
+Initial prediction accuracy: 0.568552
+Initial prediction accuracy: 0.566145
+Initial prediction accuracy: 0.567130
+Initial prediction accuracy: 0.565926
+Initial prediction accuracy: 0.566583
+Initial prediction accuracy: 0.566583
+Initial prediction accuracy: 0.566692
+Initial prediction accuracy: 0.567239
+Initial prediction accuracy: 0.568771
+Initial prediction accuracy: 0.566473
+Initial prediction accuracy: 0.568990
+Initial prediction accuracy: 0.567786
+Initial prediction accuracy: 0.567677
+Initial prediction accuracy: 0.566036
+Initial prediction accuracy: 0.565489
+Initial prediction accuracy: 0.564941
+Initial prediction accuracy: 0.570084
+Initial prediction accuracy: 0.562206
+Initial prediction accuracy: 0.563847
+Initial prediction accuracy: 0.568990
+Initial prediction accuracy: 0.567568
+Initial prediction accuracy: 0.581902
+Initial prediction accuracy: 0.589889
+Initial prediction accuracy: 0.590437
+Initial prediction accuracy: 0.591859
+Initial prediction accuracy: 0.589999
+Initial prediction accuracy: 0.589889
+Initial prediction accuracy: 0.589452
+Initial prediction accuracy: 0.589233
+Initial prediction accuracy: 0.590984
+Initial prediction accuracy: 0.592078
+Initial prediction accuracy: 0.593282
+Initial prediction accuracy: 0.593829
+Initial prediction accuracy: 0.595579
+Initial prediction accuracy: 0.595908
+Initial prediction accuracy: 0.590327
+Initial prediction accuracy: 0.597987
+Initial prediction accuracy: 0.593063
+Initial prediction accuracy: 0.598424
+
+## With AL
+0.498632
+0.497976
+0.500055
+0.492614
+0.499836
+0.498085
+0.494584
+0.505745
+0.501805
+0.499726
+0.510997
+0.506948
+0.507933
+0.506948
+0.509465
+0.518328
+0.517781
+0.511106
+0.510997
+0.512857
+0.517562
+0.514608
+0.517234
+0.511872
+0.515811
+0.519532
+0.517343
+0.515155
+0.512419
+0.518656
+0.508918
+0.519641
+0.523690
+0.523143
+0.522048
+0.520845
+0.522377
+0.519532
+0.520735
+0.519203
+0.523909
+0.520188
+0.526972
+0.524674
+0.521830
+0.527082
+0.529161
+0.526972
+0.524784
+0.529051
+0.527848
+0.529161
+0.528285
+0.522267
+0.530036
+0.523799
+0.536054
+0.536930
+0.536273
+0.539556
+0.537148
+0.542072
+0.541854
+0.545355
+0.542948
+0.540541
+0.536164
+0.538133
+0.539665
+0.544808
+0.534741
+0.544370
+0.540322
+0.543276
+0.542510
+0.545246
+0.546449
+0.552577
+0.547434
+0.547106
+0.549513
+0.546668
+0.553124
+0.547325
+0.544808
+0.553562
+0.551483
+0.551154
+0.552577
+0.549513
+0.549075
+0.551373
+0.554546
+0.554984
+0.555641
+0.557173
+0.555750
+0.553999
+0.556297
+0.556735
+0.557173
+0.548091
+0.555641
+0.557501
+0.553562
+0.555641
+0.555750
+0.553124
+0.557720
+0.556297
+0.557173
+0.552139
+0.555203
+0.558267
+0.552139
+0.558814
+0.556844
+0.555750
+0.555422
+0.558157
+0.558376
+0.556516
+0.556844
+0.560674
+0.558267
+0.560127
+0.556844
+0.560565
+0.560455
+0.558923
+0.559799
+0.558157
+0.558704
+0.561002
+0.559252
+0.561878
+0.558704
+0.556844
+0.561331
+0.559799
+0.558157
+0.563081
+0.554765
+0.558595
+0.563081
+0.558486
+0.562315
+0.561112
+0.561112
+0.561878
+0.565270
+0.565489
+0.559580
+0.559361
+0.565160
+0.561549
+0.567349
+0.558814
+0.569428
+0.564613
+0.570303
+0.566473
+0.569865
+0.569428
+0.568771
+0.570303
+0.565926
+0.566802
+0.572163
+0.570960
+0.570084
+0.571288
+0.572273
+0.571178
+0.569428
+0.573695
+0.570303
+0.571288
+0.574023
+0.573367
+0.571616
+0.573914
+0.573476
+0.570960
+0.576540
+0.571507
+0.576431
+0.569428
+0.574680
+0.573367
+0.576650
+0.574133
+0.575884
+0.574461
+0.578510
+0.575665
+0.580917
+0.580698
+0.574680
+0.576102
+0.579932
+0.577744
+0.576321
+0.575774
+0.573914
+0.576540
+0.581355
+0.576540
+0.579385
+0.581136
+0.577415
+0.578947
+0.579932
+0.578838
+0.580698
+0.575993
+0.583981
+0.578181
+0.579604
+0.583543
+0.583434
+0.583105
+0.585294
+0.578729
+0.583981
+0.584528
+0.582887
+0.582230
+0.579385
+0.585513
+0.585403
+0.587154
+0.582121
+0.589014
+0.586935
+0.588795
+0.589780
+0.592734
+0.587045
+0.588248
+0.586497
+0.590655
+0.585731
+0.587701
+0.587263
+0.587920
+0.585841
+0.587810
+0.586497
+0.592078
+0.591968
+0.592734
+0.588248
+0.589561
+0.589999
+0.593063
+0.592187
+0.591968
+0.595142
+0.597440
+0.593172
+0.590874
+0.595032
+0.591531
+0.597440
+0.596564
+0.595689
+0.599847
+0.597002
+0.592625
+0.593282
+0.593610
+0.592406
+0.602254
+0.596126
+0.597877
+0.596674
+0.596674
+0.598424
+0.596236
+0.600175
+0.596783
+0.599956
+0.601050
+0.595908
+0.592734
+0.595142
+0.597440
+0.601707
+0.600503
+0.599081
+0.599628
+0.596892
+0.600613
+0.601269
+0.598971
+0.606303
+0.601816
+0.603020
+0.596455
+0.601379
+0.601598
+0.601269
+0.601926
+0.598643
+0.598643
+0.599081
+0.599081
+0.599190
+0.602911
+0.602911
+0.606631
+0.603348
+0.604005
+0.605427
+0.607069
+0.604114
+0.609038
+0.605208
+0.606412
+0.607397
+0.607178
+0.607944
+0.610461
+0.611008
+0.606084
+0.606303
+0.607287
+0.604552
+0.606193
+0.609695
+0.606850
+0.604224
+0.605318
+0.606959
+0.604333
+0.605756
+0.605537
+0.608272
+0.606959
+0.609476
+0.608601
+0.607944
+0.608382
+0.610023
+0.610023
+0.610570
+0.610898
+0.608819
+0.611008
+0.612321
+0.616588
+0.612977
+0.610242
+0.615494
+0.616369
+0.610898
+0.610680
+0.615494
+0.613415
+0.617245
+0.617135
+0.614181
+0.617135
+0.618011
+0.615713
+0.617682
+0.619214
+0.618448
+0.616151
+0.614947
+0.619980
+0.618011
+0.618339
+0.617901
+0.619324
+0.616369
+0.617573
+0.619543
+0.616479
+0.618777
+0.616479
+0.617901
+0.618339
+0.618230
+0.621731
+0.620637
+0.619871
+0.618777
+0.617682
+0.621403
+0.620856
+0.622388
+0.620746
+0.621731
+0.623044
+0.619871
+0.622278
+0.621403
+0.621622
+0.619105
+0.623154
+0.621512
+0.622935
+0.620965
+0.621731
+0.621622
+0.624248
+0.622606
+0.618996
+0.620637
+0.623810
+0.623591
+0.620746
+0.622278
+0.621403
+0.623482
+0.623919
+0.623372
+0.625123
+0.624029
+0.624138
+0.622935
+0.621403
+0.623044
+0.622606
+0.624576
+0.626655
+0.626764
+0.625780
+0.626108
+0.625780
+0.625342
+0.626983
+0.625889
+0.627968
+0.626764
+0.625889
+0.626983
+0.628077
+0.626217
+0.625998
+0.625889
+0.628187
+0.625342
+0.628734
+0.628296
+0.628953
+0.626983
+0.629172
+0.626764
+0.627749
+0.628077
+0.626874
+0.627421
+0.628625
+0.626874
+0.628843
+0.626874
+0.627530
+0.627640
+0.629172
+0.627530
+0.627202
+0.629062
+0.625451
+0.628077
+0.629172
+0.627421
+0.629828
+0.629062
+0.628734
+0.631251
+0.628515
+0.631688
+0.630375
+0.629609
+0.629828
+0.630266
+0.630156
+0.629391
+0.629172
+0.629281
+0.630594
+0.630704
+0.628187
+0.627202
+0.630375
+0.631141
+0.631579
+0.631360
+0.631360
+0.631032
+0.629062
+0.632017
+0.633439
+0.631360
+0.631141
+0.631579
+0.629938
+0.630047
+0.630266
+
+## Entropy Sampling
+0.605099
+0.596126
+0.606522
+0.608491
+0.602145
+0.608053
+0.609038
+0.604442
+0.610132
+0.602254
+0.598315
+0.604771
+0.596783
+0.605537
+0.604333
+0.601926
+0.607616
+0.609366
+0.611883
+0.610132
+0.607616
+0.601269
+0.601160
+0.611445
+0.613415
+0.612759
+0.607835
+0.614728
+0.610789
+0.614181
+0.620527
+0.601816
+0.619980
+0.619980
+0.621293
+0.610242
+0.618558
+0.619105
+0.614181
+0.620527
+0.611993
+0.621184
+0.621403
+0.621840
+0.621293
+0.623919
+0.617245
+0.623482
+0.623919
+0.623482
+0.624576
+0.622169
+0.624248
+0.620090
+0.622388
+0.622059
+0.625233
+0.625342
+0.621731
+0.622497
+0.619214
+0.624576
+0.623919
+0.626764
+0.625342
+0.624576
+0.626108
+0.625780
+0.626764
+0.626546
+0.628296
+0.626655
+0.638035
+0.643287
+0.639567
+0.644491
+0.643178
+0.646132
+0.644819
+0.642630
+0.646788
+0.644162
+0.643068
+0.646570
+0.647773
+0.648430
+0.646132
+0.648211
+0.648539
+0.646132
+0.647883
+0.647773
+0.649086
+0.650181
+0.646460
+0.651603
+0.652916
+0.649633
+0.651712
+0.649962
+0.649633
+0.650181
+0.651494
+0.649852
+0.652588
+0.652369
+0.650618
+0.652260
+0.652041
+0.651822
+0.655652
+0.654886
+0.655323
+0.654229
+0.657512
+0.653025
+0.651384
+0.653901
+0.651712
+0.655433
+0.654339
+0.653682
+0.654886
+0.652916
+0.654995
+0.655104
+0.654886
+0.653244
+0.655542
+0.653244
+0.655870
+0.656527
+0.655214
+0.654120
+0.654557
+0.656636
+0.654120
+0.657621
+0.664952
+0.665828
+0.666265
+0.667907
+0.665062
+0.663968
+0.664624
+0.667141
+0.665390
+0.668344
+0.669548
+0.665937
+0.664952
+0.668563
+0.666922
+0.668454
+0.666922
+0.667797
+0.668235
+0.668235
+0.667250
+0.668782
+0.667797
+0.666922
+0.666703
+0.668782
+0.668344
+0.668016
+0.666265
+0.668235
+0.667360
+0.666813
+0.667579
+0.668235
+0.668454
+0.669110
+0.668563
+0.666703
+0.668892
+0.668673
+0.666594
+0.667907
+0.668782
+0.669986
+0.667688
+0.670095
+0.666375
+0.667031
+0.668892
+0.664734
+0.667579
+0.667031
+0.666922
+0.666047
+0.666594
+0.666594
+0.668344
+0.668782
+0.667141
+0.667469
+0.669220
+0.669986
+0.669767
+0.668892
+0.668126
+0.668454
+0.669329
+0.669767
+0.668454
+0.667250
+0.669876
+0.669329
+0.669329
+0.668892
+0.668454
+0.671299
+0.671080
+0.670642
+0.670314
+0.670533
+0.668235
+0.668892
+0.669329
+0.670205
+0.667031
+0.669548
+0.670314
+0.669986
+0.670533
+0.669329
+0.670314
+0.670642
+0.669548
+0.669329
+0.669548
+0.668563
+0.671299
+0.669876
+0.668563
+0.669986
+0.668673
+0.671408
+0.671189
+0.671627
+0.670533
+0.670095
+0.669001
+0.670642
+0.671080
+0.669876
+0.670205
+0.669329
+0.669658
+0.668016
+0.669658
+0.671080
+0.669548
+0.669767
+0.669220
+0.669767
+0.670642
+0.670423
+0.671299
+0.669220
+0.669876
+0.671299
+0.671627
+0.669001
+0.671299
+0.670642
+0.671737
+0.671299
+0.671189
+0.670752
+0.672940
+0.670205
+0.670971
+0.671627
+0.670642
+0.671737
+0.670533
+0.671080
+0.671846
+0.671189
+0.670642
+0.671299
+0.672612
+0.672612
+0.672502
+0.671627
+0.669001
+0.672721
+0.672612
+0.672502
+0.671299
+0.673706
+0.671955
+0.672612
+0.672721
+0.670533
+0.672393
+0.670971
+0.673268
+0.672174
+0.671846
+0.671955
+0.673706
+0.672393
+0.672940
+0.672940
+0.671955
+0.672284
+0.672393
+0.671955
+0.672940
+0.673597
+0.672940
+0.672721
+0.673159
+0.673159
+0.671518
+0.672393
+0.673268
+0.671955
+0.672174
+0.673159
+0.672502
+0.672831
+0.670205
+0.674472
+0.673597
+0.674581
+0.671737
+0.671518
+0.672831
+0.673268
+0.671189
+0.670971
+0.676223
+0.672831
+0.673159
+0.672831
+0.672612
+0.673706
+0.672284
+0.671518
+0.671737
+0.672721
+0.671627
+0.671627
+0.673925
+0.670861
+0.671189
+0.674253
+0.672831
+0.673816
+0.673378
+0.673706
+0.672612
+0.672393
+0.673487
+0.673925
+0.674253
+0.674472
+0.671627
+0.672393
+0.674034
+0.672284
+0.672721
+0.674691
+0.673159
+0.673159
+0.673597
+0.673378
+0.674691
+0.673159
+0.674144
+0.673816
+0.674581
+0.672831
+0.675457
+0.673597
+0.673816
+0.674910
+0.672831
+0.675566
+0.676113
+0.672831
+0.675457
+0.675566
+0.672284
+0.673925
+0.673487
+0.674363
+0.676223
+0.674800
+0.674581
+0.673378
+0.675457
+0.674800
+0.675019
+0.675129
+0.673816
+0.674800
+0.671627
+0.675785
+0.674691
+0.674581
+0.674691
+0.673050
+0.674800
+0.672831
+0.674253
+0.674581
+0.675566
+0.674472
+0.676551
+0.676551
+0.675019
+0.674691
+0.674363
+0.675347
+0.676223
+0.672831
+0.675238
+0.674581
+0.676004
+0.675019
+0.675566
+0.676113
+0.675895
+0.675129
+0.676442
+0.676332
+0.676442
+0.675676
+0.674691
+0.674910
+0.676770
+0.674581
+0.675566
+0.675238
+0.675238
+0.675238
+0.675019
+0.677098
+0.675347
+0.676770
+0.674800
+0.674363
+0.677098
+0.676442
+0.676004
+0.676113
+0.677645
+0.675676
+0.676770
+0.676223
+0.674910
+0.675676
+0.675457
+0.676332
+0.676879
+0.676879
+0.673597
+0.675129
+0.676004
+0.677317
+0.676004
+0.675129
+0.676989
+0.676113
+0.676442
+0.676770
+0.677974
+0.678630
+0.678411
+0.678192
+0.678411
+0.679177
+0.677645
+0.676770
+0.678630
+0.679068
+0.676770
+0.679396
+0.679068
+0.678411
+0.677536
+0.678630
+0.678411
+0.677426
+0.677755
+0.678958
+0.678630
+0.678302
+0.679505
+0.677098
+0.676989
+0.678630
+0.677755
+0.676989
+0.678630
+0.679834
+0.679724
+0.679943
+0.680053
+0.680271
+0.679287
+
+
+# margin sampling
+0.606412
+0.602035
+0.615932
+0.612211
+0.599628
+0.601160
+0.610023
+0.609038
+0.611664
+0.610680
+0.611445
+0.604114
+0.617026
+0.616698
+0.612211
+0.615275
+0.616807
+0.614838
+0.623372
+0.620746
+0.615494
+0.620199
+0.625889
+0.629172
+0.619105
+0.621622
+0.617901
+0.618011
+0.620309
+0.623919
+0.618230
+0.620746
+0.622059
+0.623044
+0.620965
+0.620637
+0.617682
+0.618667
+0.618339
+0.621622
+0.622059
+0.621512
+0.622278
+0.631907
+0.624576
+0.628077
+0.623482
+0.624795
+0.632454
+0.623372
+0.625123
+0.628296
+0.624576
+0.620309
+0.638254
+0.634205
+0.627202
+0.623701
+0.627530
+0.624467
+0.626217
+0.624248
+0.628843
+0.629062
+0.634096
+0.639676
+0.648430
+0.656855
+0.657731
+0.658168
+0.656746
+0.656199
+0.657621
+0.655761
+0.650290
+0.655214
+0.658715
+0.659153
+0.658825
+0.658825
+0.656308
+0.661889
+0.660138
+0.659263
+0.660794
+0.658825
+0.659700
+0.661013
+0.659810
+0.661560
+0.661779
+0.659810
+0.662764
+0.660357
+0.662326
+0.659591
+0.661889
+0.660247
+0.661998
+0.660904
+0.661232
+0.659810
+0.660685
+0.660576
+0.662983
+0.660466
+0.660247
+0.663858
+0.661670
+0.664952
+0.666047
+0.662545
+0.663639
+0.664077
+0.664843
+0.662873
+0.662436
+0.663092
+0.663092
+0.666484
+0.664186
+0.665828
+0.666703
+0.665609
+0.665828
+0.664405
+0.666813
+0.667579
+0.665937
+0.666375
+0.666922
+0.667797
+0.669439
+0.668235
+0.668126
+0.667907
+0.667031
+0.665281
+0.665390
+0.666047
+0.667907
+0.669220
+0.667907
+0.668235
+0.667031
+0.667031
+0.666484
+0.669548
+0.667797
+0.669767
+0.667688
+0.666594
+0.669548
+0.668563
+0.668673
+0.667797
+0.667469
+0.668563
+0.668344
+0.668016
+0.669439
+0.676989
+0.667469
+0.677974
+0.670533
+0.676551
+0.668892
+0.669548
+0.675895
+0.676989
+0.676770
+0.679615
+0.678739
+0.675785
+0.677864
+0.676660
+0.676989
+0.677536
+0.675895
+0.677426
+0.678192
+0.677645
+0.677317
+0.676879
+0.676113
+0.675785
+0.675129
+0.678630
+0.677317
+0.677317
+0.677426
+0.676332
+0.678083
+0.670971
+0.678849
+0.678083
+0.676223
+0.668344
+0.676660
+0.678739
+0.677536
+0.678302
+0.679724
+0.676770
+0.680271
+0.678192
+0.679068
+0.679068
+0.679396
+0.677536
+0.678083
+0.679068
+0.678192
+0.680271
+0.682022
+0.679724
+0.679287
+0.681256
+0.680271
+0.680381
+0.679505
+0.680490
+0.678739
+0.680053
+0.680381
+0.679834
+0.682132
+0.682569
+0.681256
+0.681037
+0.681366
+0.679943
+0.681694
+0.684539
+0.679834
+0.683445
+0.684101
+0.685195
+0.685086
+0.681803
+0.682460
+0.683226
+0.682679
+0.682132
+0.682022
+0.682350
+0.682022
+0.683554
+0.683554
+0.683992
+0.683116
+0.683335
+0.682788
+0.681803
+0.683445
+0.681475
+0.681037
+0.685086
+0.682460
+0.683445
+0.682679
+0.683445
+0.684211
+0.682241
+0.682132
+0.683773
+0.682350
+0.683007
+0.682022
+0.682241
+0.683882
+0.684320
+0.683226
+0.682350
+0.683226
+0.681366
+0.684648
+0.682460
+0.682569
+0.683335
+0.684867
+0.684976
+0.682569
+0.683445
+0.681694
+0.683882
+0.682569
+0.683992
+0.681256
+0.681803
+0.683445
+0.683335
+0.683335
+0.683335
+0.681913
+0.682241
+0.683882
+0.683335
+0.684539
+0.684429
+0.684429
+0.683663
+0.683773
+0.686180
+0.684429
+0.683992
+0.684211
+0.683226
+0.683882
+0.685195
+0.684211
+0.685852
+0.683992
+0.683554
+0.686180
+0.685524
+0.685852
+0.685195
+0.685305
+0.684648
+0.686290
+0.684758
+0.684211
+0.685305
+0.685633
+0.686508
+0.685086
+0.686180
+0.684429
+0.685524
+0.685524
+0.687603
+0.685305
+0.685633
+0.685414
+0.686727
+0.686399
+0.685195
+0.685414
+0.684867
+0.686508
+0.684976
+0.685305
+0.686290
+0.686399
+0.684429
+0.684101
+0.685742
+0.685414
+0.686727
+0.685305
+0.684648
+0.685852
+0.685742
+0.685305
+0.686399
+0.684211
+0.684429
+0.685195
+0.684101
+0.684758
+0.685742
+0.685305
+0.685524
+0.685305
+0.685633
+0.685961
+0.686727
+0.685086
+0.685195
+0.684976
+0.684648
+0.685633
+0.686946
+0.685414
+0.686837
+0.686946
+0.687274
+0.687055
+0.687493
+0.686837
+0.685524
+0.685195
+0.685633
+0.686727
+0.686508
+0.686399
+0.684976
+0.685633
+0.686946
+0.687931
+0.685195
+0.685414
+0.686071
+0.686946
+0.686946
+0.687931
+0.685961
+0.686071
+0.685414
+0.684429
+0.686508
+0.685852
+0.685852
+0.686290
+0.687384
+0.685414
+0.686508
+0.687165
+0.685742
+0.684867
+0.685195
+0.687493
+0.687712
+0.686727
+0.686837
+0.685742
+0.685414
+0.686727
+0.688150
+0.688040
+0.687384
+0.689463
+0.686180
+0.688369
+0.687274
+0.686837
+0.687712
+0.685305
+0.686946
+0.688587
+0.687493
+0.688040
+0.688040
+0.686727
+0.687165
+0.687274
+0.687931
+0.688369
+0.687712
+0.686399
+0.688587
+0.686508
+0.686946
+0.686946
+0.688478
+0.687931
+0.688806
+0.688259
+0.688040
+0.687821
+0.686946
+0.688697
+0.687603
+0.687712
+0.687712
+0.686618
+0.688697
+0.688478
+0.688587
+0.687274
+0.687712
+0.686727
+0.687055
+0.680600
+0.688259
+0.686508
+0.687493
+0.687712
+0.687603
+0.689025
+0.687384
+0.680490
+0.679505
+0.680490
+0.680818
+0.689572
+0.687493
+0.680381
+0.687165
+0.688916
+0.682569
+0.679615
+0.689025
+0.691542
+0.690448
+0.682788
+0.690119
+0.689791
+0.689025
+0.692308
+0.689900
+0.690119
+0.690776
+0.690010
+0.689353
+0.689791
+0.690666
+0.682460
+0.689463
+0.690338
+0.692198
+0.691323
+0.690448
+0.690776
+0.691104
+0.682897
