@@ -131,12 +131,16 @@ class BinaryAL:
         y_pool = np.delete(target, train_idx)
 
         if method == Method.pool:
+            print("--- pool ---")
             return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx)
         if method == Method.stream:
+            print("--- stream ---")
             return self.al_stream(data, target, X_train, y_train, X_full, y_full, train_idx)
         if method == Method.qbc:
+            print("--- qbc ---")
             return self.al_qbc(data, target, X_train, y_train, X_full, y_full, train_idx)
         if method == Method.rf:
+            print("--- rf ---")
             return self.simple_rf(data, target, X_train, y_train, X_full, y_full, train_idx)
         # if method == Method.rf:
         #     self.uncertainty_values(data, target, X_train, y_train, X_full, y_full, train_idx)
@@ -320,5 +324,5 @@ class BinaryAL:
         self.plotter(y1, y2, y3, y4,self.query_number - 1, 15)
 
 
-al1 = BinaryAL(10, 150)
+al1 = BinaryAL(15, 150)
 al1.learnAndPlot()
