@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, precision_score, recall_score, f1_score
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
@@ -39,8 +39,20 @@ def applyKnn(X_train, X_test, y_train, y_test, X, y, i, k = 3):
 
     # clf = svm.SVC(kernel='linear', C=1, random_state=42)
 # >> > scores = cross_val_score(clf, X, y, cv=5)
-    score = cross_val_score(knn, X, y, cv=5)
-    return i, score.mean()
+
+    # score = cross_val_score(knn, X, y, cv=5)
+    # return i, score.mean()
+    # print(precision_score(y_test, preds, average="macro"))
+    # score = precision_score(y_test, preds, average="macro");
+
+    # print(recall_score(y_test, preds, average="macro"))
+    # score = recall_score(y_test, preds, average="macro");
+    #
+    #
+    # print(f1_score(y_test, preds, average="macro"))
+    score = f1_score(y_test, preds, average="macro");
+
+    return i, score
 
 def applyLogisticRegression(X_train, X_test, y_train, y_test , X, y, i):
     logisticRegr = LogisticRegression()
@@ -213,7 +225,9 @@ def normalize_datagram(df, n):
     df.drop(df.index[removal_list], inplace = True)
     return df
 fig = plt.figure()
-ax = plt.axes(projection='3d')
+# ax = plt.axes(projection='3d')
+ax = fig.add_subplot(111, projection='3d')
+
 if __name__ == "__main__":
 
     df = pd.read_csv('../../data/training.csv')
@@ -281,13 +295,16 @@ if __name__ == "__main__":
 
     # ax.plot3D(x_list, y_list, z_list, 'red')
     # ax.scatter(x_list, y_list, z_list, 'red')
-    dx = np.ones(10)
-    dy = np.ones(10)
-    dz = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    dx = np.ones(len(x_list))
+    dy = np.ones(len(y_list))
+    dz = [] #[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    for i in range(0, len(z_list)):
+        dz.append(z_list[i])
+        z_list[i] = 0
     width = depth = 1
     ax.bar3d(x_list, y_list, z_list, dx, dy, dz, shade=True)
     ax.set_xlabel('# of features')
-    ax.set_ylabel('# of n of knn')
-    ax.set_zlabel('score')
+    ax.set_ylabel('# of k of knn')
+    ax.set_zlabel('f1 score')
     # ax.view_init(60, 50)
     plt.show()

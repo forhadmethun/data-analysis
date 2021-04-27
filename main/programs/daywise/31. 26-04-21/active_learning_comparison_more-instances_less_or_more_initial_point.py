@@ -138,10 +138,10 @@ def al_pool(data, target, X_train, y_train, X_full, y_full, train_idx):
     y_pool = np.delete(target, train_idx)
     learner = ActiveLearner(
         estimator=RandomForestClassifier(),
-        X_training=X_train[:200], y_training=y_train[:200]
+        X_training=X_train, y_training=y_train
     )
 
-    n_queries = 2500
+    n_queries = 1500
     for idx in range(n_queries):
         query_idx, query_instance = learner.query(X_pool)
         learner.teach(

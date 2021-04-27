@@ -150,7 +150,10 @@ if __name__ == "__main__":
     x = np.array(fisher_list)  # X-axis points
     bla  = 0
     for s in fl:
-        plt.bar([p+bla for p in x], fl[s], label=s)
-        bla = bla + 0.25
+        length = len(fisher_list)
+        # plt.bar([p+bla for p in x], fl[s],width=1 / (length + 1), label=s)
+        plt.bar([p+bla for p in x], fl[s],width= .4, label=s)
+        # bla = bla + 1 / (length + 1)
+        bla = bla + .4
     plt.legend()
     plt.show()

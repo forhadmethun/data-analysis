@@ -213,7 +213,9 @@ def normalize_datagram(df, n):
     df.drop(df.index[removal_list], inplace = True)
     return df
 fig = plt.figure()
-ax = plt.axes(projection='3d')
+# ax = plt.axes(projection='3d')
+ax = fig.add_subplot(111, projection='3d')
+
 if __name__ == "__main__":
 
     df = pd.read_csv('../../data/training.csv')
@@ -281,9 +283,11 @@ if __name__ == "__main__":
 
     # ax.plot3D(x_list, y_list, z_list, 'red')
     # ax.scatter(x_list, y_list, z_list, 'red')
-    dx = np.ones(10)
-    dy = np.ones(10)
-    dz = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    dx = np.ones(len(x_list))
+    dy = np.ones(len(y_list))
+    dz = [] #[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    for i in range(0, len(z_list)):
+        dz.append(i)
     width = depth = 1
     ax.bar3d(x_list, y_list, z_list, dx, dy, dz, shade=True)
     ax.set_xlabel('# of features')

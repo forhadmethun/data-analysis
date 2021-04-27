@@ -19,7 +19,9 @@ import matplotlib.pyplot as plt
 
 def showBar(data):
     length = len(data)
-    X = np.arange(length)
+    # X = np.arange(length)
+    X = np.array([3, 10, 25])
+
     fig = plt.figure()
     # ax = fig.add_axes([0, 0, 1, 1])
 
@@ -43,8 +45,8 @@ def showBar(data):
 
     p = 0
     for i in range(0, length):
-        plt.bar(X + p, data[i], width=1 / (length + 1), label="xxx")
-        p = p + 1 / (length + 1)
+        plt.bar(X + p, data[i], width=.7, label="xxx")
+        p = p + .7 # 0.25 #1 / (length + 1)
     # keys = [0, 1, 2, 3 ,4]
     # ax.set_xticklabels(keys)
     # ax.set_xticks(np.arange(len(keys)))
@@ -60,12 +62,9 @@ def showBar(data):
     plt.show()
 
 def testBar():
-    data = [[30, 25, 50, 20, 21, 12],
-            [40, 23, 51, 17, 21, 22],
-            [85, 22, 45, 19, 11, 22],
-            [75, 22, 15, 19, 21, 28],
-            [75, 22, 15, 19, 21,5],
-            [75, 22, 15, 19, 21,5]
+    data = [[30, 25, 50],
+            [40, 23, 51],
+            [85, 22, 45]
             ]
     showBar(data)
 testBar()

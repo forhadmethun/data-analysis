@@ -136,7 +136,8 @@ def compute_entropy_sorted(df):
     entropy_dict = {}
     for feature in df.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat', ]).columns:
         element_list = df[[feature]] #.tolist()
-        entropy_dict[feature] = entropy(element_list)
+        # entropy_dict[feature] = entropy(element_list)
+        entropy_dict[feature] = df[feature].tolist()
     entropy_dict = {k: v for k, v in sorted(entropy_dict.items(), key=lambda item: item[1])}
     sorted_features = list(entropy_dict.keys())
     return sorted_features
@@ -203,6 +204,7 @@ def kmean(df1):
         res[0][i + 1] = list[i]
         res[i + 1][0] = str(i)
     res[0][0] = ""
+    print(res)
     # todo: saved the file here!!!
     # np.savetxt('fisher' + '-output-' + str(len(df1.columns)) + '-features' + '.csv',res,delimiter=",", fmt="%s")
 
@@ -210,13 +212,13 @@ if __name__ == "__main__":
     df_for_normalize = pd.read_csv('../../data/training.csv')
     df_normalized = normalize_datagram(df_for_normalize, 1000) #1k of each cat
     df1_back = df_normalized.copy(deep=True)
-    # sorted_entropy_list = compute_entropy_sorted(df1_back)
+    sorted_entropy_list = compute_entropy_sorted(df1_back)
     # sorted_entropy_list = compute_fisher_sorted(df1_back)
-    sorted_entropy_list = compute_hopkins_sorted(df1_back)
+    # sorted_entropy_list = compute_hopkins_sorted(df1_back)
     sorted_entropy_list.insert(0, 'label')
     dataset = df1_back
     dataset.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat'], axis=1, inplace=True)
-    feature_list = [2,3,4,5, 6] # [5, 10, 20] # [2, 3, 5, 10, 20]
+    feature_list = [4, 5, 7] #[2,3,4,5, 6] # [5, 10, 20] # [2, 3, 5, 10, 20]
     for i in range(0, len(feature_list)):
         # print("# of Features: ")
         # print(feature_list[i])

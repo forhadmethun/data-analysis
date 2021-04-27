@@ -68,7 +68,7 @@ def compute_fisher_sorted(df):
     print("====================================================================")
     fisher_score = {}
     for feature in df.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat', 'label']).columns:
-        header_attack_cat = df['attack_cat'].tolist()
+        header_attack_cat = df['label'].tolist()
         attack_categories = set(header_attack_cat)
         category_item_list = {}
         for category in attack_categories:
@@ -96,7 +96,7 @@ def compute_fisher_sorted(df):
 
 def normalize_datagram(df, n):
     df.sample(frac=1)
-    header_attack_cat = df['attack_cat'].tolist()
+    header_attack_cat = df['label'].tolist()
     attack_categories = set(header_attack_cat)  # set of categories
     category_item_list = {}
     for category in attack_categories:
@@ -104,7 +104,7 @@ def normalize_datagram(df, n):
             "count": 0,
             "index": []
         }
-    feature = 'attack_cat'
+    feature = 'label'
     header_feature = df[feature].tolist()
     removal_list = []
     for index, val in enumerate(header_feature):
@@ -118,7 +118,7 @@ def normalize_datagram(df, n):
 
 if __name__ == "__main__":
     df_for_normalize = pd.read_csv('../../data/training.csv')
-    df_normalized = normalize_datagram(df_for_normalize, 1000)
+    df_normalized = normalize_datagram(df_for_normalize, 5000)
     df_back = df_normalized.copy(deep=True)
     sorted_features = compute_fisher_sorted(df_normalized)
     feature_list = []
@@ -143,14 +143,17 @@ if __name__ == "__main__":
         sc_transform = scaler.transform(df1)
         sc_df = pd.DataFrame(sc_transform)
         X = sc_transform
-        y = df_back['attack_cat']
+        y = df_back['label']
         score = applyModels(X, y, fisher_list[i])
         for s in score:
             fl[s].append(score[s])
     x = np.array(fisher_list)  # X-axis points
     bla  = 0
     for s in fl:
-        plt.bar([p+bla for p in x], fl[s], label=s)
-        bla = bla + 0.25
+        length = len(fisher_list)
+        # plt.bar([p+bla for p in x], fl[s],width=1 / (length + 1), label=s)
+        plt.bar([p+bla for p in x], fl[s],width= .4, label=s)
+        # bla = bla + 1 / (length + 1)
+        bla = bla + .4
     plt.legend()
     plt.show()

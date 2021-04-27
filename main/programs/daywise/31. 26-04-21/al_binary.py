@@ -19,7 +19,7 @@ category_list = ["Fuzzers", "Exploits", "Worms", "Shellcode", "Generic", "Analys
 
 def normalize_datagram(df, n):
     df.sample(frac=1)
-    header_attack_cat = df['attack_cat'].tolist()
+    header_attack_cat = df['label'].tolist()
     attack_categories = set(header_attack_cat)  # set of categories
     category_item_list = {}
     normalized_category_item_list = {}
@@ -32,7 +32,7 @@ def normalize_datagram(df, n):
             "count": 0,
             "index": []
         }
-    feature = 'attack_cat'
+    feature = 'label'
     header_feature = df[feature].tolist()
     removal_list = []
     for index, val in enumerate(header_feature):
@@ -46,7 +46,7 @@ def normalize_datagram(df, n):
 
     # normalized calculation after removing the extra data
     header_feature = df[feature].tolist()
-    header_attack_cat = df['attack_cat'].tolist()
+    header_attack_cat = df['label'].tolist()
     for index, val in enumerate(header_feature):
         normalized_category_item_list[header_attack_cat[index]]['count'] = \
             normalized_category_item_list[header_attack_cat[index]]['count'] + 1
@@ -54,19 +54,19 @@ def normalize_datagram(df, n):
 
     first_item_index_of_each_category = []
     for key, value in normalized_category_item_list.items():
-        for i in range(0, 20):
+        for i in range(0, 50):
             if (i < len(value['index'])):
              first_item_index_of_each_category.append(value['index'][i])
 
     # for index, val in enumerate(header_feature):
-    for i, l in enumerate(category_list):
-        df.loc[df['attack_cat'] == l, ['label']] = i
+    # for i, l in enumerate(category_list):
+    #     df.loc[df['attack_cat'] == l, ['label']] = i
     return df, first_item_index_of_each_category
 
 def compute_fisher_sorted(df):
     fisher_score = {}
     for feature in df.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat', 'label']).columns:
-        header_attack_cat = df['attack_cat'].tolist()
+        header_attack_cat = df['label'].tolist()
         attack_categories = set(header_attack_cat)
         category_item_list = {}
         for category in attack_categories:
@@ -138,10 +138,10 @@ def al_pool(data, target, X_train, y_train, X_full, y_full, train_idx):
     y_pool = np.delete(target, train_idx)
     learner = ActiveLearner(
         estimator=RandomForestClassifier(),
-        X_training=X_train[:200], y_training=y_train[:200]
+        X_training=X_train, y_training=y_train
     )
 
-    n_queries = 2500
+    n_queries = 220
     for idx in range(n_queries):
         query_idx, query_instance = learner.query(X_pool)
         learner.teach(
@@ -173,7 +173,7 @@ def al_stream(data, target, X_train, y_train, X_full, y_full, train_idx):
             learner_score = learner.score(X_full, y_full)
             # print('Item no. %d queried, new accuracy: %f' % (stream_idx, learner_score))
             print('%0.3f' % (learner_score) , end=",")
-            if index == 500:
+            if index == 300:
                 break
             index = index + 1
 

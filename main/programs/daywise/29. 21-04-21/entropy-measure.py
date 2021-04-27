@@ -1,6 +1,5 @@
 import collections
 import json
-import math
 
 import pandas
 import pandas as pd
@@ -74,6 +73,14 @@ def compute_entropy_sorted(df):
         element_list = df[feature].tolist()
         entropy_dict[feature] = entropy(element_list)
     entropy_dict = {k: v for k, v in sorted(entropy_dict.items(), key=lambda item: item[1])}
+    # print("=================================")
+    # print("----- ENTROPY OF FEATURES ------")
+    # print("=================================")
+    # print(json.dumps(entropy_dict, indent=2))
+    for f in entropy_dict:
+        # print(f)
+        print("%.5f" % entropy_dict[f])
+
     sorted_features = list(entropy_dict.keys())
     return sorted_features
 
@@ -91,7 +98,7 @@ def showBar(data):
     ax.set_xlabel('Amount ($)')
     plt.show()
 
-def kmeanAndFindDistances(df1):
+def kmean(df1):
     mat = df1.values
     X = mat
     km =  sklearn.cluster.KMeans(n_clusters=10)
@@ -100,12 +107,16 @@ def kmeanAndFindDistances(df1):
     results = pandas.DataFrame([dataset.index, labels]).T
     labels = km.labels_
     plt.scatter(X[:, 0], X[:, 1], c=km.labels_, cmap='rainbow')
+
     list = ["Fuzzers", "Exploits", "Worms", "Shellcode", "Generic", "Analysis", "Backdoor", "DoS", "Reconnaissance",
             "Normal"]
+
     dict = {}
+
     for j in range(0, 10):
         dict[j] = {"Fuzzers": 0, "Exploits": 0, "Worms": 0, "Shellcode": 0, "Generic": 0, "Analysis": 0,
                    "Backdoor": 0, "DoS": 0, "Reconnaissance": 0, "Normal": 0}
+
     clusters = []
     for i in range (0, 10):
        cur = df1[km.labels_ == i]
@@ -114,46 +125,75 @@ def kmeanAndFindDistances(df1):
            each_cluster_mat.append(row)
            dict[i][list[row['label']]] = dict[i][list[row['label']]] + 1
        clusters.append(each_cluster_mat)
-    # intra_cluster_distance(clusters)
-    inter_cluster_distance(clusters)
+    print(json.dumps(dict, indent=2))
 
-def intra_cluster_distance(clusters):
-    for m in range(0, len(clusters)):
-        first = clusters[m]
-        cluster_intra_distances = []
-        for i in range(0, int(len(first)/5)):
-            for j in range(i + 1, int(len(first)/5)):
-                cluster_intra_distances.append(np.linalg.norm(first[i] - first[j]))
-        plt.hist(cluster_intra_distances, density=True, bins=30)  # density=False would make counts
-        plt.xlabel('Distance measured')
-        plt.ylabel('Freq.')
-        plt.show()
+    # distance
 
-def inter_cluster_distance(clusters):
+    first = clusters[0]
+    second = clusters[1]
+    parent_dist = 0
+
+    # for i in range(0, int(len(first)/5)):
+    #     dist = 0
+    #     for j in range(0, int(len(second)/5)):
+    #         dist += np.linalg.norm(first[i] - second[j])
+    #     dist = dist / (len(second)/5)
+    #     parent_dist += dist
+    #     x = 0
+    # parent_dist = parent_dist / (len(first)/5)
+
+    l = 9
+    ans = [[0 for x in range(l + 1)] for y in range(l + 1)]
+
+    # ans = [[]]
     for m in range(0, len(clusters)):
-        cluster_inter_distance = []
         for n in range(m + 1, len(clusters)):
             first = clusters[m]
             second = clusters[n]
+            parent_dist = 0
+
             for i in range(0, int(len(first) / 50)):
+                dist = 0
                 for j in range(0, int(len(second) / 50)):
-                    cluster_inter_distance.append(np.linalg.norm(first[i] - second[j]))
-        plt.hist(cluster_inter_distance, density=True, bins=30)  # density=False would make counts
-        plt.xlabel('Distance measured')
-        plt.ylabel('Freq.')
-        plt.show()
+                    dist += np.linalg.norm(first[i] - second[j])
+                dist = dist / (len(second) / 50)
+                parent_dist += dist
+                x = 0
+            parent_dist = parent_dist / (len(first) / 50)
+            ans[m][n] = round(parent_dist, 2)
+            ans[n][m] = round(parent_dist, 2)
+        k = 0
+
+    data = ans
+    print(ans)
+    showBar(ans)
+    # X = np.arange(4)
+    # fig = plt.figure()
+    # ax = fig.add_axes([0, 0, 1, 1])
+    # for i in range(0, 10):
+    #     ax.bar(X + 0.00 + i * .05, data[i], color='b', width=0.10)
+        # ax.bar(X + 0.25, data[1], color='g', width=0.25)
+        # ax.bar(X + 0.50, data[2], color='r', width=0.25)
+    # plt.show()
+    y = 0
+
+    # np.linalg.norm(clusters[0][0].values.flatten() - clusters[0][1].values.flatten())
+
+
+    # distances = pdist(results, metric='euclidean')
+    # dist_matrix = squareform(distances)
+    # print(dist_matrix)
+        # print(cur)
+        # x = 0
+
+
 
 if __name__ == "__main__":
     df_for_normalize = pd.read_csv('../../data/training.csv')
     df_normalized = normalize_datagram(df_for_normalize, 1000) #1k of each cat
     df1_back = df_normalized.copy(deep=True)
     sorted_entropy_list = compute_entropy_sorted(df1_back)
-    sorted_entropy_list.insert(0, 'label')
-    dataset = df1_back
-    dataset.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat'], axis=1, inplace=True)
-    feature_list = [5] #[2,3,4,5, 6] # [5, 10, 20] # [2, 3, 5, 10, 20]
-    for i in range(0, len(feature_list)):
-        df1 = dataset[sorted_entropy_list[:feature_list[i]]]
-        kmeanAndFindDistances(df1)
+
+        # print("-----------------")
 
 plt.show()

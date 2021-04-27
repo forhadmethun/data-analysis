@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import confusion_matrix, classification_report, f1_score, precision_score, recall_score
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
@@ -54,6 +54,19 @@ def applyModels(X, y, n):
         # print(mean_score)
         print(classification_report(y_test, preds))
         # feature_list[name].append(n)
+
+
+        # print(precision_score(y_test, preds, average="macro"))
+        # mean_score = precision_score(y_test, preds, average="macro");
+
+        # print(recall_score(y_test, preds, average="macro"))
+        # mean_score = recall_score(y_test, preds, average="macro");
+        #
+        #
+        # print(f1_score(y_test, preds, average="macro"))
+        # mean_score = f1_score(y_test, preds, average="macro");
+
+
         score_list[name] = mean_score
         print()
         print()
@@ -96,7 +109,7 @@ def compute_fisher_sorted(df):
 
 def normalize_datagram(df, n):
     df.sample(frac=1)
-    header_attack_cat = df['attack_cat'].tolist()
+    header_attack_cat = df['label'].tolist()
     attack_categories = set(header_attack_cat)  # set of categories
     category_item_list = {}
     for category in attack_categories:
@@ -104,7 +117,7 @@ def normalize_datagram(df, n):
             "count": 0,
             "index": []
         }
-    feature = 'attack_cat'
+    feature = 'label'
     header_feature = df[feature].tolist()
     removal_list = []
     for index, val in enumerate(header_feature):
@@ -118,7 +131,7 @@ def normalize_datagram(df, n):
 
 if __name__ == "__main__":
     df_for_normalize = pd.read_csv('../../data/training.csv')
-    df_normalized = normalize_datagram(df_for_normalize, 1000)
+    df_normalized = normalize_datagram(df_for_normalize, 5000)
     df_back = df_normalized.copy(deep=True)
     sorted_features = compute_fisher_sorted(df_normalized)
     feature_list = []
@@ -126,7 +139,7 @@ if __name__ == "__main__":
     dt_score_list = []
     svm_score_list = []
     lr_score_list = []
-    fisher_list = [3, 10, 25]
+    fisher_list = [3, 10, 15, 20, 25]
     fl = {
         'LR': [],
         'NB': [],
@@ -143,14 +156,17 @@ if __name__ == "__main__":
         sc_transform = scaler.transform(df1)
         sc_df = pd.DataFrame(sc_transform)
         X = sc_transform
-        y = df_back['attack_cat']
+        y = df_back['label']
         score = applyModels(X, y, fisher_list[i])
         for s in score:
             fl[s].append(score[s])
     x = np.array(fisher_list)  # X-axis points
     bla  = 0
     for s in fl:
-        plt.bar([p+bla for p in x], fl[s], label=s)
-        bla = bla + 0.25
+        length = len(fisher_list)
+        # plt.bar([p+bla for p in x], fl[s],width=1 / (length + 1), label=s)
+        plt.bar([p+bla for p in x], fl[s],width= .4, label=s)
+        # bla = bla + 1 / (length + 1)
+        bla = bla + .4
     plt.legend()
     plt.show()
