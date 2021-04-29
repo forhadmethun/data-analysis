@@ -295,7 +295,7 @@ class BinaryAL:
         plt.plot(x[start_index:how_many_max_instances], y1[start_index:how_many_max_instances], label="Pool based Selection")
 
         # y2 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Stream based ")
+        # plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Stream based ")
 
         # y3 = [ ]
         plt.plot(x[start_index:how_many_max_instances], y3[start_index:how_many_max_instances], label="Query by committee")
@@ -315,14 +315,20 @@ class BinaryAL:
 
         y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
         self.init(self.initial_point, self.query_number)
-        y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
-        self.init(self.initial_point, self.query_number)
+
+        # y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
+        # self.init(self.initial_point, self.query_number)
+
         y3 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.qbc)
         self.init(self.initial_point, self.query_number)
+
         y4 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rf)
         self.init(self.initial_point, self.query_number)
-        self.plotter(y1, y2, y3, y4,self.query_number - 1, 15)
 
+        self.plotter(y1, [], y3, y4,self.query_number - 1, 15)
 
-al1 = BinaryAL(15, 150)
+# al1 = BinaryAL(45, 150)
+# al1.learnAndPlot()
+
+al1 = BinaryAL(75, 150)
 al1.learnAndPlot()
