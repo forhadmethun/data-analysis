@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from modAL import Committee
 from modAL.models import ActiveLearner
-from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin
+from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, entropy_sampling, classifier_entropy
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
 
@@ -15,6 +15,9 @@ class Method:
     pool = 'pool',
     stream = 'stream',
     qbc = 'qbc'
+    uncertainty_pool = 'uncertainty_pool'
+    margin_pool = 'margin_pool'
+    entropy_pool = 'entropy_pool'
 
 class BinaryAL:
     def __init__(self, initial_point, query_number):
@@ -133,6 +136,17 @@ class BinaryAL:
         if method == Method.pool:
             print("--- pool ---")
             return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx)
+
+
+        if method == Method.margin_pool:
+            print("--- pool ---")
+            return self.al_pool_margin(data, target, X_train, y_train, X_full, y_full, train_idx)
+
+        if method == Method.entropy_pool:
+            print("--- pool ---")
+            return self.al_pool_entropy(data, target, X_train, y_train, X_full, y_full, train_idx)
+
+
         if method == Method.stream:
             print("--- stream ---")
             return self.al_stream(data, target, X_train, y_train, X_full, y_full, train_idx)
@@ -165,6 +179,60 @@ class BinaryAL:
         y_pool = np.delete(target, train_idx)
         learner = ActiveLearner(
             estimator=RandomForestClassifier(),
+            X_training=X_train, y_training=y_train
+        )
+
+        n_queries = self.query_number
+        # n_queries = 1500
+        for idx in range(n_queries):
+            query_idx, query_instance = learner.query(X_pool)
+            learner.teach(
+                X=X_pool[query_idx].reshape(1, -1),
+                y=y_pool[query_idx].reshape(1, )
+            )
+            # remove queried instance from pool
+            X_pool = np.delete(X_pool, query_idx, axis=0)
+            y_pool = np.delete(y_pool, query_idx)
+            learner_score = learner.score(data, target)
+            # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            acc.append(learner_score)
+            print('%0.3f' % (learner_score), end=",")
+        return acc
+
+    def al_pool_entropy(self, data, target, X_train, y_train, X_full, y_full, train_idx):
+        acc = []
+        X_pool = np.delete(data, train_idx, axis=0)
+        y_pool = np.delete(target, train_idx)
+        learner = ActiveLearner(
+            estimator=RandomForestClassifier(),
+            query_strategy=entropy_sampling,
+            X_training=X_train, y_training=y_train
+        )
+
+        n_queries = self.query_number
+        # n_queries = 1500
+        for idx in range(n_queries):
+            query_idx, query_instance = learner.query(X_pool)
+            learner.teach(
+                X=X_pool[query_idx].reshape(1, -1),
+                y=y_pool[query_idx].reshape(1, )
+            )
+            # remove queried instance from pool
+            X_pool = np.delete(X_pool, query_idx, axis=0)
+            y_pool = np.delete(y_pool, query_idx)
+            learner_score = learner.score(data, target)
+            # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            acc.append(learner_score)
+            print('%0.3f' % (learner_score), end=",")
+        return acc
+
+    def al_pool_margin(self, data, target, X_train, y_train, X_full, y_full, train_idx):
+        acc = []
+        X_pool = np.delete(data, train_idx, axis=0)
+        y_pool = np.delete(target, train_idx)
+        learner = ActiveLearner(
+            estimator=RandomForestClassifier(),
+            query_strategy=margin_sampling,
             X_training=X_train, y_training=y_train
         )
 
@@ -292,20 +360,20 @@ class BinaryAL:
         for i in range(0, how_many_max_instances):
             x.append(i)
         # y1 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y1[start_index:how_many_max_instances], label="Pool based Selection")
+        plt.plot(x[start_index:how_many_max_instances], y1[start_index:how_many_max_instances], label="Least confident uncertainty sampling")
 
         # y2 = [ ]
-        # plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Stream based ")
+        plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Max margin uncertainty sampling")
 
         # y3 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y3[start_index:how_many_max_instances], label="Query by committee")
+        plt.plot(x[start_index:how_many_max_instances], y3[start_index:how_many_max_instances], label="Max entropy unceratinty sampling")
 
         # y4 = []
-        plt.plot(x[start_index:how_many_max_instances], y4[start_index:how_many_max_instances], label="Random Forest Classifier")
+        plt.plot(x[start_index:how_many_max_instances], y4[start_index:how_many_max_instances], label="Query by committee sampling")
 
         plt.xlabel('Query Instances')
         plt.ylabel('Accuracy')
-        plt.title('Active learning accuracy performance measure on binary classifier')
+        plt.title('Pool based Active learning accuracy performance on binary case')
         plt.legend()
         plt.show()
 
@@ -316,16 +384,16 @@ class BinaryAL:
         y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
         self.init(self.initial_point, self.query_number)
 
-        # y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
-        # self.init(self.initial_point, self.query_number)
-
-        y3 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.qbc)
+        y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.margin_pool)
         self.init(self.initial_point, self.query_number)
 
-        y4 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rf)
+        y3 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.entropy_pool)
         self.init(self.initial_point, self.query_number)
 
-        self.plotter(y1, [], y3, y4,self.query_number - 1, 15)
+        y4 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.qbc)
+        self.init(self.initial_point, self.query_number)
+
+        self.plotter(y1, y2, y3, y4,self.query_number - 1, 15)
 
 # al1 = BinaryAL(45, 150)
 # al1.learnAndPlot()
@@ -333,5 +401,5 @@ class BinaryAL:
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
 
-al1 = BinaryAL(10, 150)
+al1 = BinaryAL(10, 200)
 al1.learnAndPlot()
