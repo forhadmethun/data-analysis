@@ -1,13 +1,18 @@
 from copy import deepcopy
+from functools import partial
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from modAL import Committee
+from modAL.batch import uncertainty_batch_sampling
 from modAL.models import ActiveLearner
-from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, entropy_sampling, classifier_entropy
+from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, classifier_entropy
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_fscore_support as score
+# from main.programs.prev.fisher import score
 
 
 class Method:
@@ -15,9 +20,7 @@ class Method:
     pool = 'pool',
     stream = 'stream',
     qbc = 'qbc'
-    uncertainty_pool = 'uncertainty_pool'
-    margin_pool = 'margin_pool'
-    entropy_pool = 'entropy_pool'
+    rank = 'rank'
 
 class BinaryAL:
     def __init__(self, initial_point, query_number):
@@ -117,6 +120,20 @@ class BinaryAL:
         sorted_features = list(fisher_score.keys())
         return sorted_features
 
+    def active_learn_rank_based(self, df1, first_item_index_of_each_category, method, raw_sample_size):
+        train_idx = first_item_index_of_each_category
+
+        data = df1.values[:, 1:]
+        target = df1['label'].values
+
+        X_full = df1.values[:, 1:]
+        y_full = df1['label'].values
+
+        X_train = df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = df1['label'].values[train_idx]
+
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size)
+
     def active_learn(self, df1, first_item_index_of_each_category, method):
         train_idx = first_item_index_of_each_category
 
@@ -131,21 +148,13 @@ class BinaryAL:
 
         X_pool = np.delete(data, train_idx, axis=0)
         y_pool = np.delete(target, train_idx)
+        if method == Method.rank:
+            print("--- pool ---")
+            return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx)
 
         if method == Method.pool:
             print("--- pool ---")
             return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx)
-
-
-        if method == Method.margin_pool:
-            print("--- pool ---")
-            return self.al_pool_margin(data, target, X_train, y_train, X_full, y_full, train_idx)
-
-        if method == Method.entropy_pool:
-            print("--- pool ---")
-            return self.al_pool_entropy(data, target, X_train, y_train, X_full, y_full, train_idx)
-
-
         if method == Method.stream:
             print("--- stream ---")
             return self.al_stream(data, target, X_train, y_train, X_full, y_full, train_idx)
@@ -157,6 +166,12 @@ class BinaryAL:
             return self.simple_rf(data, target, X_train, y_train, X_full, y_full, train_idx)
         # if method == Method.rf:
         #     self.uncertainty_values(data, target, X_train, y_train, X_full, y_full, train_idx)
+
+    def performance_measure(self, learner, X_full, y_full):
+        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.30)
+        y_predict = learner.predict(X_test)
+        precision, recall, fscore, support = score(y_test, y_predict)
+        return precision, recall, fscore, support
 
     def simple_rf(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         # print("START: RF")
@@ -193,63 +208,89 @@ class BinaryAL:
             X_pool = np.delete(X_pool, query_idx, axis=0)
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
+
+            # learner.estimator
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.30)
+            y_predict = learner.predict(X_test)
+
+            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
 
-    def al_pool_entropy(self, data, target, X_train, y_train, X_full, y_full, train_idx):
-        acc = []
-        X_pool = np.delete(data, train_idx, axis=0)
-        y_pool = np.delete(target, train_idx)
+    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx,  N_RAW_SAMPLES = 80):
+
+        BATCH_SIZE = 3
+        preset_batch = partial(uncertainty_batch_sampling, n_instances=BATCH_SIZE)
+
         learner = ActiveLearner(
             estimator=RandomForestClassifier(),
-            query_strategy=entropy_sampling,
-            X_training=X_train, y_training=y_train
+
+            X_training=X_train,
+            y_training=y_train,
+
+            query_strategy=preset_batch
         )
 
-        n_queries = self.query_number
-        # n_queries = 1500
-        for idx in range(n_queries):
-            query_idx, query_instance = learner.query(X_pool)
-            learner.teach(
-                X=X_pool[query_idx].reshape(1, -1),
-                y=y_pool[query_idx].reshape(1, )
-            )
-            # remove queried instance from pool
-            X_pool = np.delete(X_pool, query_idx, axis=0)
-            y_pool = np.delete(y_pool, query_idx)
-            learner_score = learner.score(data, target)
-            # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
-            acc.append(learner_score)
-            print('%0.3f' % (learner_score), end=",")
-        return acc
+        # N_RAW_SAMPLES = 80
+        N_QUERIES = N_RAW_SAMPLES // BATCH_SIZE
+        unqueried_score = learner.score(X_full, y_full)
+        performance_history = [unqueried_score]
 
-    def al_pool_margin(self, data, target, X_train, y_train, X_full, y_full, train_idx):
+        # Isolate our examples for our labeled dataset.
+        n_labeled_examples = X_full.shape[0]
+        training_indices = np.random.randint(low=0, high=n_labeled_examples + 1, size=3)
+
+        X_train = X_full[training_indices]
+        y_train = y_full[training_indices]
+
+        # Isolate the non-training examples we'll be querying.
+        X_pool = np.delete(X_full, training_indices, axis=0)
+        y_pool = np.delete(y_full, training_indices, axis=0)
+
+
         acc = []
-        X_pool = np.delete(data, train_idx, axis=0)
-        y_pool = np.delete(target, train_idx)
-        learner = ActiveLearner(
-            estimator=RandomForestClassifier(),
-            query_strategy=margin_sampling,
-            X_training=X_train, y_training=y_train
-        )
+        for index in range(N_QUERIES):
+            query_index, query_instance = learner.query(X_pool)
 
-        n_queries = self.query_number
-        # n_queries = 1500
-        for idx in range(n_queries):
-            query_idx, query_instance = learner.query(X_pool)
-            learner.teach(
-                X=X_pool[query_idx].reshape(1, -1),
-                y=y_pool[query_idx].reshape(1, )
-            )
-            # remove queried instance from pool
-            X_pool = np.delete(X_pool, query_idx, axis=0)
-            y_pool = np.delete(y_pool, query_idx)
-            learner_score = learner.score(data, target)
-            # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
-            acc.append(learner_score)
-            print('%0.3f' % (learner_score), end=",")
+            # Teach our ActiveLearner model the record it has requested.
+            X, y = X_pool[query_index], y_pool[query_index]
+            learner.teach(X=X, y=y)
+
+            # Remove the queried instance from the unlabeled pool.
+            X_pool = np.delete(X_pool, query_index, axis=0)
+            y_pool = np.delete(y_pool, query_index)
+
+            # Calculate and report our model's accuracy.
+            model_accuracy = learner.score(X_full, y_full)
+            print('Accuracy after query {n}: {acc:0.4f}'.format(n=index + 1, acc=model_accuracy))
+            acc.append(model_accuracy)
+            # Save our model's performance for plotting.
+            performance_history.append(model_accuracy)
+        # acc = []
+        # X_pool = np.delete(data, train_idx, axis=0)
+        # y_pool = np.delete(target, train_idx)
+        # learner = ActiveLearner(
+        #     estimator=RandomForestClassifier(),
+        #     X_training=X_train, y_training=y_train
+        # )
+        #
+        # n_queries = self.query_number
+        # # n_queries = 1500
+        # for idx in range(n_queries):
+        #     query_idx, query_instance = learner.query(X_pool)
+        #     learner.teach(
+        #         X=X_pool[query_idx].reshape(1, -1),
+        #         y=y_pool[query_idx].reshape(1, )
+        #     )
+        #     # remove queried instance from pool
+        #     X_pool = np.delete(X_pool, query_idx, axis=0)
+        #     y_pool = np.delete(y_pool, query_idx)
+        #     learner_score = learner.score(data, target)
+        #     # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+        #     acc.append(learner_score)
+        #     print('%0.3f' % (learner_score), end=",")
         return acc
 
     def al_stream(self, data, target, X_train, y_train, X_full, y_full, train_idx):
@@ -264,13 +305,16 @@ class BinaryAL:
         # print('Initial prediction accuracy: %f' % learner.score(X_full, y_full))
         index = 0
         # learning until the accuracy reaches a given threshold
+        xx = 0;
         while learner.score(X_full, y_full) < 0.90:
+            print(xx)
+            xx = xx + 1
             stream_idx = np.random.choice(range(len(X_full)))
-            if classifier_uncertainty(learner, X_full[stream_idx].reshape(1, -1)) >= 0.2:
+            if classifier_entropy(learner, X_full[stream_idx].reshape(1, -1)) >= 0.2:
                 learner.teach(X_full[stream_idx].reshape(1, -1), y_full[stream_idx].reshape(-1, ))
                 learner_score = learner.score(X_full, y_full)
                 # print('Item no. %d queried, new accuracy: %f' % (stream_idx, learner_score))
-                print('%0.3f' % (learner_score), end=",")
+                # print('%0.3f' % (learner_score), end=",")
                 if index == self.query_number:
                     break
                 index = index + 1
@@ -359,40 +403,62 @@ class BinaryAL:
         for i in range(0, how_many_max_instances):
             x.append(i)
         # y1 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y1[start_index:how_many_max_instances], label="Least confident uncertainty sampling")
+        plt.plot(x[start_index:how_many_max_instances], y1[start_index:how_many_max_instances], label="Pool based Selection")
 
         # y2 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Max margin uncertainty sampling")
+        # plt.plot(x[start_index:how_many_max_instances], y2[start_index:how_many_max_instances], label="Stream based ")
 
         # y3 = [ ]
-        plt.plot(x[start_index:how_many_max_instances], y3[start_index:how_many_max_instances], label="Max entropy unceratinty sampling")
+        plt.plot(x[start_index:how_many_max_instances], y3[start_index:how_many_max_instances], label="Query by committee")
 
         # y4 = []
-        plt.plot(x[start_index:how_many_max_instances], y4[start_index:how_many_max_instances], label="Query by committee sampling")
+        plt.plot(x[start_index:how_many_max_instances], y4[start_index:how_many_max_instances], label="Random Forest Classifier")
 
         plt.xlabel('Query Instances')
         plt.ylabel('Accuracy')
-        plt.title('Pool based Active learning accuracy performance on binary case')
+        plt.title('Active learning accuracy performance measure on binary classifier')
         plt.legend()
         plt.show()
+
+    def plotter_rank_based(self, y1, how_many_max_instances, start_index):
+        x = []
+        for i in range(0, how_many_max_instances):
+            x.append(i)
+        # y1 = [ ]
+        plt.plot(x[start_index:len(y1 ) - 1], y1[start_index:len(y1) - 1],
+                 label="Rank based Selection")
+
+        plt.xlabel('Query batches(3 elements in each batch)')
+        plt.ylabel('Accuracy')
+        plt.title('Active learning accuracy performance measure on binary classifier')
+        plt.legend()
+        plt.show()
+
+    def learnAndPlotRankBased(self, raw_sample_size):
+        y1 = self.active_learn_rank_based(self.df1, self.first_item_index_of_each_category, Method.rank, raw_sample_size)
+        self.init(self.initial_point, self.query_number)
+        self.plotter_rank_based(y1, 75, 2)
 
     def learnAndPlot(self):
         # for i in range(0, len(self.feature_list)):
         # df1 = self.dataset[self.sorted_entropy_list[:self.feature_list[i]]]
 
+        # y0 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rank)
+        # self.init(self.initial_point, self.query_number)
+
         y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
         self.init(self.initial_point, self.query_number)
 
-        y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.margin_pool)
+        # y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
+        # self.init(self.initial_point, self.query_number)
+
+        y3 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.qbc)
         self.init(self.initial_point, self.query_number)
 
-        y3 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.entropy_pool)
+        y4 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rf)
         self.init(self.initial_point, self.query_number)
 
-        y4 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.qbc)
-        self.init(self.initial_point, self.query_number)
-
-        self.plotter(y1, y2, y3, y4,self.query_number - 1, 15)
+        self.plotter(y1, [], y3, y4,self.query_number - 1, 15)
 
 # al1 = BinaryAL(45, 150)
 # al1.learnAndPlot()
@@ -400,5 +466,6 @@ class BinaryAL:
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
 
-al1 = BinaryAL(10, 200)
-al1.learnAndPlot()
+al1 = BinaryAL(10, 150)
+# al1.learnAndPlot()
+al1.learnAndPlotRankBased(80)

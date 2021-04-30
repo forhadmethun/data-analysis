@@ -10,6 +10,9 @@ from modAL.models import ActiveLearner
 from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, classifier_entropy
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_fscore_support as score
+# from main.programs.prev.fisher import score
 
 
 class Method:
@@ -201,7 +204,12 @@ class BinaryAL:
             X_pool = np.delete(X_pool, query_idx, axis=0)
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
+
+            # learner.estimator
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.30)
+            y_predict = learner.predict(X_test)
+            precision, recall, fscore, support = score(y_test, y_predict)
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
@@ -292,13 +300,16 @@ class BinaryAL:
         # print('Initial prediction accuracy: %f' % learner.score(X_full, y_full))
         index = 0
         # learning until the accuracy reaches a given threshold
+        xx = 0;
         while learner.score(X_full, y_full) < 0.90:
+            print(xx)
+            xx = xx + 1
             stream_idx = np.random.choice(range(len(X_full)))
             if classifier_entropy(learner, X_full[stream_idx].reshape(1, -1)) >= 0.2:
                 learner.teach(X_full[stream_idx].reshape(1, -1), y_full[stream_idx].reshape(-1, ))
                 learner_score = learner.score(X_full, y_full)
                 # print('Item no. %d queried, new accuracy: %f' % (stream_idx, learner_score))
-                print('%0.3f' % (learner_score), end=",")
+                # print('%0.3f' % (learner_score), end=",")
                 if index == self.query_number:
                     break
                 index = index + 1
@@ -430,7 +441,7 @@ class BinaryAL:
         # y0 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rank)
         # self.init(self.initial_point, self.query_number)
 
-        y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
+        y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
         self.init(self.initial_point, self.query_number)
 
         # y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
@@ -450,6 +461,6 @@ class BinaryAL:
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
 
-al1 = BinaryAL(10, 150)
+al1 = BinaryAL(50, 150)
 al1.learnAndPlot()
 # al1.learnAndPlotRankBased(80)

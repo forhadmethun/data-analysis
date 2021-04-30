@@ -8,6 +8,8 @@ from modAL.models import ActiveLearner
 from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, entropy_sampling, classifier_entropy
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import precision_recall_fscore_support, precision_score, recall_score, f1_score
 
 
 class Method:
@@ -117,6 +119,17 @@ class BinaryAL:
         sorted_features = list(fisher_score.keys())
         return sorted_features
 
+    def performance_measure(self, learner, X_full, y_full):
+        X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.30)
+        y_predict = learner.predict(X_test)
+        precision, recall, fscore, support = precision_recall_fscore_support(y_test, y_predict)
+
+        precision = precision_score(y_test, y_predict)
+        recall = recall_score(y_test, y_predict)
+        fscore = f1_score(y_test, y_predict)
+
+        return precision, recall, fscore, support
+
     def active_learn(self, df1, first_item_index_of_each_category, method):
         train_idx = first_item_index_of_each_category
 
@@ -194,6 +207,8 @@ class BinaryAL:
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
+            learner_score = precision
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
@@ -221,6 +236,8 @@ class BinaryAL:
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
+            learner_score = precision
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
@@ -248,6 +265,8 @@ class BinaryAL:
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
+            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
+            learner_score = precision
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
@@ -322,6 +341,8 @@ class BinaryAL:
             y_pool = np.delete(y_pool, query_idx)
             learner_score = committee.score(data, target)
             # print('Committee %d th query predictions, accuracy = %1.3f' % (idx , learner_score))
+            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
+            learner_score = precision
             acc.append(learner_score)
             print('%0.3f' % (learner_score), end=",")
         return acc
