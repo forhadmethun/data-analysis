@@ -11,7 +11,10 @@ from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifie
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import precision_recall_fscore_support as score
+from sklearn.metrics import precision_recall_fscore_support as score, precision_score, recall_score, f1_score, \
+    accuracy_score
+
+
 # from main.programs.prev.fisher import score
 
 
@@ -120,7 +123,7 @@ class BinaryAL:
         sorted_features = list(fisher_score.keys())
         return sorted_features
 
-    def active_learn_rank_based(self, df1, first_item_index_of_each_category, method, raw_sample_size):
+    def active_learn_rank_based(self, df1, first_item_index_of_each_category, method, raw_sample_size, batch_size):
         train_idx = first_item_index_of_each_category
 
         data = df1.values[:, 1:]
@@ -132,7 +135,7 @@ class BinaryAL:
         X_train = df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
         y_train = df1['label'].values[train_idx]
 
-        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size)
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size, batch_size)
 
     def active_learn(self, df1, first_item_index_of_each_category, method):
         train_idx = first_item_index_of_each_category
@@ -170,8 +173,15 @@ class BinaryAL:
     def performance_measure(self, learner, X_full, y_full):
         X_train, X_test, y_train, y_test = train_test_split(X_full, y_full, test_size=0.30)
         y_predict = learner.predict(X_test)
-        precision, recall, fscore, support = score(y_test, y_predict)
-        return precision, recall, fscore, support
+        # precision, recall, fscore, support = score(y_test, y_predict)
+
+        accuracy = accuracy_score(y_test, y_predict)
+        precision = precision_score(y_test, y_predict)
+        recall = recall_score(y_test, y_predict)
+        fscore = f1_score(y_test, y_predict)
+        support = 0
+
+        return accuracy, precision, recall, fscore, support
 
     def simple_rf(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         # print("START: RF")
@@ -219,9 +229,9 @@ class BinaryAL:
             print('%0.3f' % (learner_score), end=",")
         return acc
 
-    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx,  N_RAW_SAMPLES = 80):
+    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx,  N_RAW_SAMPLES = 80, batch_size = 3):
 
-        BATCH_SIZE = 3
+        BATCH_SIZE = batch_size
         preset_batch = partial(uncertainty_batch_sampling, n_instances=BATCH_SIZE)
 
         learner = ActiveLearner(
@@ -249,7 +259,12 @@ class BinaryAL:
         X_pool = np.delete(X_full, training_indices, axis=0)
         y_pool = np.delete(y_full, training_indices, axis=0)
 
-
+        performance_measure = {
+            'accuracy' : [],
+            'precision' : [],
+            'recall' : [],
+            'fscore' : []
+        }
         acc = []
         for index in range(N_QUERIES):
             query_index, query_instance = learner.query(X_pool)
@@ -265,7 +280,15 @@ class BinaryAL:
             # Calculate and report our model's accuracy.
             model_accuracy = learner.score(X_full, y_full)
             print('Accuracy after query {n}: {acc:0.4f}'.format(n=index + 1, acc=model_accuracy))
+
+            accuracy, precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
+            learner_score = precision
+
             acc.append(model_accuracy)
+            performance_measure['accuracy'].append(accuracy)
+            performance_measure['precision'].append(precision)
+            performance_measure['recall'].append(recall)
+            performance_measure['fscore'].append(fscore)
             # Save our model's performance for plotting.
             performance_history.append(model_accuracy)
         # acc = []
@@ -291,7 +314,7 @@ class BinaryAL:
         #     # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
         #     acc.append(learner_score)
         #     print('%0.3f' % (learner_score), end=",")
-        return acc
+        return acc, performance_measure
 
     def al_stream(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         # initializing the active learner
@@ -434,10 +457,11 @@ class BinaryAL:
         plt.legend()
         plt.show()
 
-    def learnAndPlotRankBased(self, raw_sample_size):
-        y1 = self.active_learn_rank_based(self.df1, self.first_item_index_of_each_category, Method.rank, raw_sample_size)
+    def learnAndPlotRankBased(self, raw_sample_size, batch_size):
+        y1, performance_measure = self.active_learn_rank_based(self.df1, self.first_item_index_of_each_category, Method.rank, raw_sample_size, batch_size)
         self.init(self.initial_point, self.query_number)
-        self.plotter_rank_based(y1, 75, 2)
+        # self.plotter_rank_based(y1, 75, 2)
+        self.dumb_plotter_rank(performance_measure, 2, batch_size)
 
     def learnAndPlot(self):
         # for i in range(0, len(self.feature_list)):
@@ -460,12 +484,30 @@ class BinaryAL:
 
         self.plotter(y1, [], y3, y4,self.query_number - 1, 15)
 
+    def dumb_plotter_rank(self, performance_measure, start_index, batch_size):
+
+        for key in performance_measure:
+            y = performance_measure[key]
+            x = []
+            for i in range(0, len(y)):
+                x.append(i)
+            # y1 = [ ]
+            plt.plot(x[start_index:len(y ) - 1], y[start_index:len(y) - 1],
+                     label=key)
+
+        plt.xlabel('Query batches(' + str(batch_size) + '  elements in each batch)')
+        plt.ylabel('Performance measure')
+        plt.title('Active learning accuracy performance measure on binary classifier')
+        plt.legend()
+        plt.show()
+
+
 # al1 = BinaryAL(45, 150)
 # al1.learnAndPlot()
 #
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
 
-al1 = BinaryAL(10, 150)
+al1 = BinaryAL(10, 120)
 # al1.learnAndPlot()
-al1.learnAndPlotRankBased(80)
+al1.learnAndPlotRankBased(80, 7)
