@@ -438,11 +438,11 @@ class BinaryAL:
         # for i in range(0, len(self.feature_list)):
         # df1 = self.dataset[self.sorted_entropy_list[:self.feature_list[i]]]
 
-        # y0 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rank)
-        # self.init(self.initial_point, self.query_number)
-
-        y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
+        y0 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.rank)
         self.init(self.initial_point, self.query_number)
+
+        # y1 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.pool)
+        # self.init(self.initial_point, self.query_number)
 
         # y2 = self.active_learn(self.df1, self.first_item_index_of_each_category, Method.stream)
         # self.init(self.initial_point, self.query_number)
