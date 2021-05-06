@@ -1,12 +1,15 @@
 from copy import deepcopy
+from functools import partial
+from random import randint
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from modAL import Committee
+from modAL.batch import uncertainty_batch_sampling
 from modAL.models import ActiveLearner
 from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, entropy_sampling, \
-    classifier_entropy
+    classifier_entropy, uncertainty_sampling
 from numpy import *
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -18,11 +21,11 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import precision_recall_fscore_support as score
+
 
 class Method:
     rf = 'rf'
-    pool  = 'pool',
+    pool = 'pool',
     stream = 'stream',
     qbc = 'qbc'
     uncertainty_pool = 'uncertainty_pool'
@@ -133,13 +136,12 @@ class BinaryAL:
         y_predict = learner.predict(X_test)
         # precision, recall, fscore, support = precision_recall_fscore_support(y_test, y_predict)
 
-        # precision, recall, fscore, support = score(y_test, y_predict)
-
         accuracy = accuracy_score(y_test, y_predict)
-        precision = precision_score(y_test, y_predict,average='weighted')
-        recall = recall_score(y_test, y_predict,average='weighted')
-        fscore = f1_score(y_test, y_predict,average='weighted')
+        precision = precision_score(y_test, y_predict, average='weighted')
+        recall = recall_score(y_test, y_predict, average='weighted')
+        fscore = f1_score(y_test, y_predict, average='weighted')
         support = 0
+
         return precision, recall, fscore, support, accuracy
 
     def active_learn(self, df1, first_item_index_of_each_category, method):
@@ -196,9 +198,11 @@ class BinaryAL:
         return acc
 
     def al_pool(self, data, target, X_train, y_train, X_full, y_full, train_idx):
-        return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx, RandomForestClassifier())
+        return self.al_pool(data, target, X_train, y_train, X_full,
+                            y_full, train_idx, RandomForestClassifier(), uncertainty_sampling)
 
-    def al_pool(self, data, target, X_train, y_train, X_full, y_full, train_idx, classifier):
+    ## START: POOL
+    def al_pool(self, data, target, X_train, y_train, X_full, y_full, train_idx, classifier, sampling_strategy):
         acc = []
         pre = []
         rec = []
@@ -207,6 +211,7 @@ class BinaryAL:
         y_pool = np.delete(target, train_idx)
         learner = ActiveLearner(
             estimator=classifier,
+            query_strategy=sampling_strategy,
             X_training=X_train, y_training=y_train
         )
 
@@ -232,13 +237,17 @@ class BinaryAL:
             print('%0.3f' % (learner_score), end=",")
         return acc, pre, rec, fs
 
-    def al_pool_entropy(self, data, target, X_train, y_train, X_full, y_full, train_idx):
+
+    def al_pool_proba(self, data, target, X_train, y_train, X_full, y_full, train_idx, classifier, sampling_strategy, proba):
         acc = []
+        pre = []
+        rec = []
+        fs = []
         X_pool = np.delete(data, train_idx, axis=0)
         y_pool = np.delete(target, train_idx)
         learner = ActiveLearner(
-            estimator=RandomForestClassifier(),
-            query_strategy=entropy_sampling,
+            estimator=classifier,
+            query_strategy=sampling_strategy,
             X_training=X_train, y_training=y_train
         )
 
@@ -246,49 +255,35 @@ class BinaryAL:
         # n_queries = 1500
         for idx in range(n_queries):
             query_idx, query_instance = learner.query(X_pool)
+
+            labeled_y = y_pool[query_idx].reshape(1, )
+            rand_int = randint(0, 100)
+            if(rand_int <= proba):
+                if( y_pool[query_idx][0] == 1):
+                    y_pool[query_idx][0] = 0
+                    labeled_y = np.array((0)).reshape(1,)
+                else:
+                    y_pool[query_idx][0] = 1
+                    labeled_y = np.array((1)).reshape(1, )
+
             learner.teach(
                 X=X_pool[query_idx].reshape(1, -1),
-                y=y_pool[query_idx].reshape(1, )
+                y=labeled_y
             )
             # remove queried instance from pool
             X_pool = np.delete(X_pool, query_idx, axis=0)
             y_pool = np.delete(y_pool, query_idx)
             learner_score = learner.score(data, target)
             # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
-            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
-            learner_score = fscore
-            acc.append(learner_score)
+            precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
+            # learner_score = fscore
+            acc.append(accuracy)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
             print('%0.3f' % (learner_score), end=",")
-        return acc
-
-    def al_pool_margin(self, data, target, X_train, y_train, X_full, y_full, train_idx):
-        acc = []
-        X_pool = np.delete(data, train_idx, axis=0)
-        y_pool = np.delete(target, train_idx)
-        learner = ActiveLearner(
-            estimator=RandomForestClassifier(),
-            query_strategy=margin_sampling,
-            X_training=X_train, y_training=y_train
-        )
-
-        n_queries = self.query_number
-        # n_queries = 1500
-        for idx in range(n_queries):
-            query_idx, query_instance = learner.query(X_pool)
-            learner.teach(
-                X=X_pool[query_idx].reshape(1, -1),
-                y=y_pool[query_idx].reshape(1, )
-            )
-            # remove queried instance from pool
-            X_pool = np.delete(X_pool, query_idx, axis=0)
-            y_pool = np.delete(y_pool, query_idx)
-            learner_score = learner.score(data, target)
-            # print('Accuracy after query no. %d: %f' % (idx + 1, learner_wscore))
-            precision, recall, fscore, support = self.performance_measure(learner, X_full, y_full)
-            learner_score = fscore
-            acc.append(learner_score)
-            print('%0.3f' % (learner_score), end=",")
-        return acc
+        return acc, pre, rec, fs
+    ## END: POOL
 
     def al_stream(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         # initializing the active learner
@@ -318,8 +313,13 @@ class BinaryAL:
     def al_qbc(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         self.al_qbc(data, target, X_train, y_train, X_full, y_full, train_idx, consensus_entropy_sampling)
 
+    ## START: QBC
     def al_qbc(self, data, target, X_train, y_train, X_full, y_full, train_idx, committee_strategy):
         acc = []
+        pre = []
+        rec = []
+        fs = []
+
         X_pool = deepcopy(X_full)
         y_pool = deepcopy(y_full)
 
@@ -370,9 +370,191 @@ class BinaryAL:
             precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
             learner_score = accuracy
             acc.append(learner_score)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
             print('%0.3f' % (learner_score), end=",")
-        return acc
+        return acc , pre, rec, fs
         # print("END: Q")
+
+    def al_qbc_proba(self, data, target, X_train, y_train, X_full, y_full, train_idx, committee_strategy, proba):
+        acc = []
+        pre = []
+        rec = []
+        fs = []
+
+        X_pool = deepcopy(X_full)
+        y_pool = deepcopy(y_full)
+
+        # initializing Committee members
+        n_members = 2
+        learner_list = list()
+
+        for member_idx in range(n_members):
+            # initial training data
+            # n_initial = 5
+            # train_idx = np.random.choice(range(X_pool.shape[0]), size=n_initial, replace=False)
+            # X_train = X_pool[train_idx]
+            # y_train = y_pool[train_idx]
+
+            # creating a reduced copy of the data with the known instances removed
+            X_pool = np.delete(X_pool, train_idx, axis=0)
+            y_pool = np.delete(y_pool, train_idx)
+
+            # initializing learner
+            learner = ActiveLearner(
+                estimator=RandomForestClassifier(),
+                # query_strategy=vote_entropy_sampling,
+
+                X_training=X_train, y_training=y_train
+            )
+            learner_list.append(learner)
+            # assembling the committee
+        committee = Committee(
+            learner_list=learner_list,
+            query_strategy=committee_strategy
+        )
+
+        # print('Committee initial predictions, accuracy = %1.3f' % committee.score(data, target))
+        # print('%1.3f' % committee.score(data, target))
+
+        n_queries = self.query_number
+        for idx in range(n_queries):
+            query_idx, query_instance = committee.query(X_pool)
+
+            labeled_y = y_pool[query_idx].reshape(1, )
+
+            rand_int = randint(0, 100)
+            if (rand_int <= proba):
+                if (y_pool[query_idx][0] == 1):
+                    y_pool[query_idx][0] = 0
+                    labeled_y = np.array((0)).reshape(1, )
+                else:
+                    y_pool[query_idx][0] = 1
+                    labeled_y = np.array((1)).reshape(1, )
+
+            # learner.teach(
+            #     X=X_pool[query_idx].reshape(1, -1),
+            #     y=labeled_y
+            # )
+
+
+            committee.teach(
+                X=X_pool[query_idx].reshape(1, -1),
+                y=labeled_y
+            )
+            # remove queried instance from pool
+            X_pool = np.delete(X_pool, query_idx, axis=0)
+            y_pool = np.delete(y_pool, query_idx)
+            # learner_score = committee.score(data, target)
+            # print('Committee %d th query predictions, accuracy = %1.3f' % (idx , learner_score))
+            precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
+            learner_score = accuracy
+            acc.append(learner_score)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
+            print('%0.3f' % (learner_score), end=",")
+        return acc, pre, rec, fs
+        # print("END: Q")
+    ## END: QBC
+
+    def al_rank_proba(self, data, target, X_train, y_train, X_full, y_full, train_idx, committee_strategy, proba):
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, 80, proba)
+
+    def active_learn_rank_based(self, df1, first_item_index_of_each_category, method, raw_sample_size):
+        train_idx = first_item_index_of_each_category
+
+        data = df1.values[:, 1:]
+        target = df1['label'].values
+
+        X_full = df1.values[:, 1:]
+        y_full = df1['label'].values
+
+        X_train = df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = df1['label'].values[train_idx]
+
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size)
+
+    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx, N_RAW_SAMPLES=80, proba = 5):
+        acc = []
+        pre = []
+        rec = []
+        fs = []
+        BATCH_SIZE = 3
+        preset_batch = partial(uncertainty_batch_sampling, n_instances=BATCH_SIZE)
+
+        learner = ActiveLearner(
+            estimator=RandomForestClassifier(),
+
+            X_training=X_train,
+            y_training=y_train,
+
+            query_strategy=preset_batch
+        )
+
+        # N_RAW_SAMPLES = 80
+        N_QUERIES = N_RAW_SAMPLES // BATCH_SIZE
+        unqueried_score = learner.score(X_full, y_full)
+        performance_history = [unqueried_score]
+
+        # Isolate our examples for our labeled dataset.
+        n_labeled_examples = X_full.shape[0]
+        training_indices = np.random.randint(low=0, high=n_labeled_examples + 1, size=3)
+
+        X_train = X_full[training_indices]
+        y_train = y_full[training_indices]
+
+        # Isolate the non-training examples we'll be querying.
+        X_pool = np.delete(X_full, training_indices, axis=0)
+        y_pool = np.delete(y_full, training_indices, axis=0)
+
+
+        for index in range(N_QUERIES):
+            query_index, query_instance = learner.query(X_pool)
+
+            # Teach our ActiveLearner model the record it has requested.
+            X, y = X_pool[query_index], y_pool[query_index]
+
+
+            labeled_y =y
+            rand_int = randint(0, 100)
+            if (rand_int <= proba):
+                labeled_y = np.array([])
+                for idx in query_index:
+                    if (y_pool[idx] == 1):
+                        y_pool[idx] = 0
+                        labeled_y = np.append(labeled_y, 0)
+                    else:
+                        y_pool[idx] = 1
+                        # labeled_y = np.array((1)).reshape(1, )
+                        labeled_y = np.append(labeled_y, 1)
+
+            learner.teach(
+                X=X,
+                y=labeled_y
+            )
+
+
+            # learner.teach(X=X, y=y)
+
+            # Remove the queried instance from the unlabeled pool.
+            X_pool = np.delete(X_pool, query_index, axis=0)
+            y_pool = np.delete(y_pool, query_index)
+
+            # Calculate and report our model's accuracy.
+            model_accuracy = learner.score(X_full, y_full)
+            print('Accuracy after query {n}: {acc:0.4f}'.format(n=index + 1, acc=model_accuracy))
+            precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
+            learner_score = accuracy
+            acc.append(learner_score)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
+            # Save our model's performance for plotting.
+            performance_history.append(model_accuracy)
+
+        return  acc, pre, rec, fs
 
     def uncertainty_values(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         print("START: ST")
@@ -444,7 +626,7 @@ class BinaryAL:
         plt.legend()
         plt.show()
 
-    def dumb_plotter_pool(self, performance_measure, start_index, heda):
+    def dumb_plotter_pool(self, performance_measure, start_index, ylabel):
 
         for key in performance_measure:
             y = performance_measure[key]
@@ -456,11 +638,27 @@ class BinaryAL:
                      label=key)
 
         plt.xlabel('Query Iteration')
-        plt.ylabel('Performance measure(' + heda+ ')')
+        plt.ylabel(ylabel)
         plt.title('Pool based selection strategy on multiclass case')
         plt.legend()
         plt.show()
 
+    def dumb_plotter_proba(self, performance_measure, start_index, proba):
+
+        for key in performance_measure:
+            y = performance_measure[key]
+            x = []
+            for i in range(0, len(y)):
+                x.append(i)
+            # y1 = [ ]
+            plt.plot(x[start_index:len(y) - 1], y[start_index:len(y) - 1],
+                     label=key)
+
+        plt.xlabel('Query Batches( 3 instances each batch)')
+        plt.ylabel('Performance')
+        plt.title('Rank based strategy on binary case(' + str(proba) + '% wrong labeling' + ')')
+        plt.legend()
+        plt.show()
 
     def learnAndPlot(self):
         # for i in range(0, len(self.feature_list)):
@@ -481,7 +679,7 @@ class BinaryAL:
 
         self.plotter(y1, y2, y3, y4, self.query_number - 1, 15)
 
-    def learn_and_plot_pool(self, classifier):
+    def learn_pool_proba(self, classifier, sampling_strategy, proba):
 
         train_idx = self.first_item_index_of_each_category
 
@@ -493,7 +691,49 @@ class BinaryAL:
 
         X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
         y_train = self.df1['label'].values[train_idx]
-        return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx, classifier)
+        return self.al_pool_proba(data, target, X_train, y_train, X_full, y_full, train_idx, classifier, sampling_strategy, proba)
+
+    def learn_qbc_proba(self, classifier, sampling_strategy, proba):
+
+        train_idx = self.first_item_index_of_each_category
+
+        data = self.df1.values[:, 1:]
+        target = self.df1['label'].values
+
+        X_full = self.df1.values[:, 1:]
+        y_full = self.df1['label'].values
+
+        X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = self.df1['label'].values[train_idx]
+        return self.al_qbc_proba(data, target, X_train, y_train, X_full, y_full, train_idx, consensus_entropy_sampling, proba)
+
+    def learn_rank_proba(self, classifier, sampling_strategy, proba):
+
+        train_idx = self.first_item_index_of_each_category
+
+        data = self.df1.values[:, 1:]
+        target = self.df1['label'].values
+
+        X_full = self.df1.values[:, 1:]
+        y_full = self.df1['label'].values
+
+        X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = self.df1['label'].values[train_idx]
+        return self.al_rank_proba(data, target, X_train, y_train, X_full, y_full, train_idx, consensus_entropy_sampling, proba)
+
+    def learn_and_plot_pool(self, classifier, sampling_strategy):
+
+        train_idx = self.first_item_index_of_each_category
+
+        data = self.df1.values[:, 1:]
+        target = self.df1['label'].values
+
+        X_full = self.df1.values[:, 1:]
+        y_full = self.df1['label'].values
+
+        X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = self.df1['label'].values[train_idx]
+        return self.al_pool(data, target, X_train, y_train, X_full, y_full, train_idx, classifier, sampling_strategy)
 
     def learn_and_plot_qbc(self, committee_strategy):
 
@@ -534,86 +774,148 @@ class BinaryAL:
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
 
-al1 = BinaryAL(20, 1700)
+# al1 = BinaryAL(10, 120)
+# # al1.learnAndPlot()
+#
+# al2 = BinaryAL(10, 120)
+# # al2.learnAndPlot()
+#
+# al3 = BinaryAL(10, 120)
+# # al3.learnAndPlot()
+#
+# al4 = BinaryAL(10, 120)
+# al5 = BinaryAL(10, 120)
+# al6 = BinaryAL(10, 120)
+
+al1 = BinaryAL(20, 40)#1700)
 # al1.learnAndPlot()
 
-al2 = BinaryAL(20, 1700)
+al2 = BinaryAL(20,1700)
 # al2.learnAndPlot()
 
-al3 = BinaryAL(20, 1700)
+al3 = BinaryAL(20,1700)
 # al3.learnAndPlot()
 
-al4 = BinaryAL(20, 1700)
+al4 = BinaryAL(20,1700)
 al5 = BinaryAL(20, 1700)
+al6 = BinaryAL(20,1700)
+
+
+
+
+
 # al4.learnAndPlot()
+#
+# acc, pre, rec, fs = al1.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 5)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 5)
+#
+# acc, pre, rec, fs = al2.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 10)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 10)
+#
+# acc, pre, rec, fs = al3.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 15)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 15)
+#
+# acc, pre, rec, fs = al4.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 20)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 20)
+#
+# acc, pre, rec, fs = al5.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 25)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 25)
 
 #
-# dic = {
-#     'vote_entropy_sampling' :  al1.learn_and_plot_qbc(vote_entropy_sampling),
-#     'consensus_entropy_sampling' :  al2.learn_and_plot_qbc(consensus_entropy_sampling),
-#     'max_disagreement_sampling' :  al3.learn_and_plot_qbc(max_disagreement_sampling),
-#     # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
-# }
 
+acc_rf, pre_rf, rec_rf, fs_rf  = al1.learn_and_plot_pool(RandomForestClassifier(), uncertainty_sampling)
+acc_dt, pre_dt, rec_dt, fs_dt = al3.learn_and_plot_pool(DecisionTreeClassifier(), entropy_sampling)
+acc_kn, pre_kn, rec_kn, fs_kn = al2.learn_and_plot_pool(KNeighborsClassifier(n_neighbors=3), margin_sampling)
+acc_lr, pre_lr, rec_lr, fs_lr = al4.learn_and_plot_qbc(vote_entropy_sampling)
+acc_nb, pre_nb, rec_nb, fs_nb = al5.learn_and_plot_qbc(consensus_entropy_sampling)
+acc_md, pre_md, rec_md, fs_md = al6.learn_and_plot_qbc(max_disagreement_sampling)
 
-models = [
-    ('RF', RandomForestClassifier()),
-    ('LR', LogisticRegression()),
-    ('NB', GaussianNB()),
-    ('SVM', SVC(kernel='linear')),
-    ('KNN', KNeighborsClassifier(n_neighbors=3)),
-    ('DT', DecisionTreeClassifier()),
-]
-acc_rf, pre_rf, rec_rf, fs_rf  = al1.learn_and_plot_pool(RandomForestClassifier())
-acc_dt, pre_dt, rec_dt, fs_dt = al3.learn_and_plot_pool(DecisionTreeClassifier())
-acc_kn, pre_kn, rec_kn, fs_kn = al2.learn_and_plot_pool(KNeighborsClassifier(n_neighbors=3))
-acc_lr, pre_lr, rec_lr, fs_lr = al4.learn_and_plot_pool(LogisticRegression())
-acc_nb, pre_nb, rec_nb, fs_nb = al5.learn_and_plot_pool(GaussianNB())
 dic = {
-    'Random Forest' :  acc_rf,
-    'Decision Tree' :  acc_dt,
-    'k-nearest neighbors' :  acc_kn,
-    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
-    'Logistic regression' :  acc_lr,
-    'Naive Bayes classifier' :  acc_nb,
+    'Least confident (uncertainty sampling)' :  acc_rf,
+    'Entropy sampling (uncertainty sampling)' :  acc_dt,
+    'Margin sampling (uncertainty sampling)' :  acc_kn,
+    'Vote entropy sampling (query by committee)' :  acc_lr,
+    'Consensus entropy sampling (query by committee)' :  acc_nb,
+    'Max disagreement sampling (query by committee)' :  acc_md,
     # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
 }
 
-al1.dumb_plotter_pool(dic, 5, 'accuracy')
 
-dic = {
-    'Random Forest' :  pre_rf,
-    'Decision Tree' :  pre_dt,
-    'k-nearest neighbors' :  pre_kn,
-    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
-    'Logistic regression' :  pre_lr,
-    'Naive Bayes classifier' :  pre_nb,
-    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
-}
+al1.dumb_plotter_pool(dic, 15, 'accuracy')
 
-al1.dumb_plotter_pool(dic, 5, 'precision')
-
-dic = {
-    'Random Forest' :  rec_rf,
-    'Decision Tree' :  rec_dt,
-    'k-nearest neighbors' :  rec_kn,
-    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
-    'Logistic regression' :  rec_lr,
-    'Naive Bayes classifier' :  pre_nb,
-    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
-}
-
-al1.dumb_plotter_pool(dic, 5, 'recall')
 
 
 dic = {
-    'Random Forest' :  fs_rf,
-    'Decision Tree' :  fs_dt,
-    'k-nearest neighbors' :  fs_kn,
-    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
-    'Logistic regression' :  fs_lr,
-    'Naive Bayes classifier' :  fs_nb,
+    'Least confident (uncertainty sampling)' :  pre_rf,
+    'Entropy sampling (uncertainty sampling)' :  pre_dt,
+    'Margin sampling (uncertainty sampling)' :  pre_kn,
+    'Vote entropy sampling (query by committee)' :  pre_lr,
+    'Consensus entropy sampling (query by committee)' :  pre_nb,
+    'Max disagreement sampling (query by committee)' :  pre_md,
     # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
 }
 
-al1.dumb_plotter_pool(dic, 5, 'f1 score')
+
+al1.dumb_plotter_pool(dic, 15, 'precision')
+
+
+dic = {
+    'Least confident (uncertainty sampling)' :  rec_rf,
+    'Entropy sampling (uncertainty sampling)' :  rec_dt,
+    'Margin sampling (uncertainty sampling)' :  rec_kn,
+    'Vote entropy sampling (query by committee)' :  rec_lr,
+    'Consensus entropy sampling (query by committee)' :  rec_nb,
+    'Max disagreement sampling (query by committee)' :  rec_md,
+    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
+}
+
+
+al1.dumb_plotter_pool(dic, 15, 'recall')
+
+dic = {
+    'Least confident (uncertainty sampling)' :  fs_rf,
+    'Entropy sampling (uncertainty sampling)' :  fs_dt,
+    'Margin sampling (uncertainty sampling)' :  fs_kn,
+    'Vote entropy sampling (query by committee)' :  fs_lr,
+    'Consensus entropy sampling (query by committee)' :  fs_nb,
+    'Max disagreement sampling (query by committee)' :  fs_md,
+    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
+}
+
+
+al1.dumb_plotter_pool(dic, 15, 'f1 score')
