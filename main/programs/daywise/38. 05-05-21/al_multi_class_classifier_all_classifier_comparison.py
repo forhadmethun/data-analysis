@@ -18,11 +18,11 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
-
+from sklearn.metrics import precision_recall_fscore_support as score
 
 class Method:
     rf = 'rf'
-    pool = 'pool',
+    pool  = 'pool',
     stream = 'stream',
     qbc = 'qbc'
     uncertainty_pool = 'uncertainty_pool'
@@ -133,10 +133,12 @@ class BinaryAL:
         y_predict = learner.predict(X_test)
         # precision, recall, fscore, support = precision_recall_fscore_support(y_test, y_predict)
 
+        # precision, recall, fscore, support = score(y_test, y_predict)
+
         accuracy = accuracy_score(y_test, y_predict)
-        precision = precision_score(y_test, y_predict, average='micro')
-        recall = recall_score(y_test, y_predict, average='micro')
-        fscore = f1_score(y_test, y_predict, average='micro')
+        precision = precision_score(y_test, y_predict,average='weighted')
+        recall = recall_score(y_test, y_predict,average='weighted')
+        fscore = f1_score(y_test, y_predict,average='weighted')
         support = 0
 
         return precision, recall, fscore, support, accuracy
@@ -229,7 +231,7 @@ class BinaryAL:
             rec.append(recall)
             fs.append(fscore)
             print('%0.3f' % (learner_score), end=",")
-        return acc
+        return acc, pre, rec, fs
 
     def al_pool_entropy(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         acc = []
@@ -455,8 +457,8 @@ class BinaryAL:
                      label=key)
 
         plt.xlabel('Query Iteration')
-        plt.ylabel('Performance measure(accuracy)')
-        plt.title('Pool based selection strategy on binary case')
+        plt.ylabel('Performance measure(' + heda+ ')')
+        plt.title('Pool based selection strategy on multiclass case')
         plt.legend()
         plt.show()
 
@@ -563,15 +565,56 @@ models = [
     ('KNN', KNeighborsClassifier(n_neighbors=3)),
     ('DT', DecisionTreeClassifier()),
 ]
-
+acc_rf, pre_rf, rec_rf, fs_rf  = al1.learn_and_plot_pool(RandomForestClassifier())
+acc_dt, pre_dt, rec_dt, fs_dt = al3.learn_and_plot_pool(DecisionTreeClassifier())
+acc_kn, pre_kn, rec_kn, fs_kn = al2.learn_and_plot_pool(KNeighborsClassifier(n_neighbors=3))
+acc_lr, pre_lr, rec_lr, fs_lr = al4.learn_and_plot_pool(LogisticRegression())
+acc_nb, pre_nb, rec_nb, fs_nb = al5.learn_and_plot_pool(GaussianNB())
 dic = {
-    'Random Forest' :  al1.learn_and_plot_pool(RandomForestClassifier()),
-    'Decision Tree' :  al3.learn_and_plot_pool(DecisionTreeClassifier()),
-    'k-nearest neighbors' :  al2.learn_and_plot_pool(KNeighborsClassifier(n_neighbors=3)),
+    'Random Forest' :  acc_rf,
+    'Decision Tree' :  acc_dt,
+    'k-nearest neighbors' :  acc_kn,
     # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
-    'Logistic regression' :  al4.learn_and_plot_pool(LogisticRegression()),
-    'Naive Bayes classifier' :  al5.learn_and_plot_pool(GaussianNB()),
+    'Logistic regression' :  acc_lr,
+    'Naive Bayes classifier' :  acc_nb,
     # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
 }
 
-al1.dumb_plotter_pool(dic, 5, 119)
+al1.dumb_plotter_pool(dic, 5, 'accuracy')
+
+dic = {
+    'Random Forest' :  pre_rf,
+    'Decision Tree' :  pre_dt,
+    'k-nearest neighbors' :  pre_kn,
+    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
+    'Logistic regression' :  pre_lr,
+    'Naive Bayes classifier' :  pre_nb,
+    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
+}
+
+al1.dumb_plotter_pool(dic, 5, 'precision')
+
+dic = {
+    'Random Forest' :  rec_rf,
+    'Decision Tree' :  rec_dt,
+    'k-nearest neighbors' :  rec_kn,
+    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
+    'Logistic regression' :  rec_lr,
+    'Naive Bayes classifier' :  pre_nb,
+    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
+}
+
+al1.dumb_plotter_pool(dic, 5, 'recall')
+
+
+dic = {
+    'Random Forest' :  fs_rf,
+    'Decision Tree' :  fs_dt,
+    'k-nearest neighbors' :  fs_kn,
+    # 'Support vector machine' :  al3.learn_and_plot_pool(SVC(kernel='linear')),
+    'Logistic regression' :  fs_lr,
+    'Naive Bayes classifier' :  fs_nb,
+    # 'max_std_sampling' :  al4.learn_and_plot_qbc(max_std_sampling),
+}
+
+al1.dumb_plotter_pool(dic, 5, 'f1 score')
