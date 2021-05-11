@@ -575,7 +575,7 @@ al5 = BinaryAL(20, 1700)
 al6 = BinaryAL(20, 1700)
 # al4.learnAndPlot()
 
-acc, pre, rec, fs = al1.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 40)
+acc, pre, rec, fs = al1.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 25)
 dic = {
     'accuracy': acc,
     'precision': pre,
@@ -583,19 +583,9 @@ dic = {
     'f1 score': fs
 
 }
-al1.dumb_plotter_proba(dic, 25, 40)
+al1.dumb_plotter_proba(dic, 25, 25)
 
-acc, pre, rec, fs = al2.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 30)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 25, 30)
-
-acc, pre, rec, fs = al3.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 20)
+acc, pre, rec, fs = al2.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 20)
 dic = {
     'accuracy': acc,
     'precision': pre,
@@ -604,6 +594,16 @@ dic = {
 
 }
 al1.dumb_plotter_proba(dic, 25, 20)
+
+acc, pre, rec, fs = al3.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 15)
+dic = {
+    'accuracy': acc,
+    'precision': pre,
+    'recall': rec,
+    'f1 score': fs
+
+}
+al1.dumb_plotter_proba(dic, 25, 15)
 
 acc, pre, rec, fs = al4.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 10)
 dic = {
