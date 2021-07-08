@@ -586,6 +586,7 @@ dic = {
 al1.dumb_plotter_proba(dic, 25, 25)
 
 acc, pre, rec, fs = al2.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 20)
+acc, pre, rec, fs = al2.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 15)
 dic = {
     'accuracy': acc,
     'precision': pre,
@@ -605,7 +606,7 @@ dic = {
 }
 al1.dumb_plotter_proba(dic, 25, 15)
 
-acc, pre, rec, fs = al4.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 10)
+acc, pre, rec, fs = al4.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 25)
 dic = {
     'accuracy': acc,
     'precision': pre,
@@ -613,7 +614,7 @@ dic = {
     'f1 score': fs
 
 }
-al1.dumb_plotter_proba(dic, 25, 10)
+al1.dumb_plotter_proba(dic, 25, 25)
 
 #
 # dic = {

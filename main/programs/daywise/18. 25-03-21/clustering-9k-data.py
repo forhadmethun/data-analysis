@@ -94,7 +94,7 @@ def showBar(data):
     ax.set_xlabel('Amount ($)')
     plt.show()
 
-def kmean(df1):
+def kmean(df1, feature_no):
     mat = df1.values
     X = mat
     km =  sklearn.cluster.KMeans(n_clusters=10)
@@ -161,7 +161,9 @@ def kmean(df1):
         k = 0
 
     data = ans
+    print("================")
     print(ans)
+    print("================")
     showBar(ans)
     # X = np.arange(4)
     # fig = plt.figure()
@@ -192,7 +194,7 @@ if __name__ == "__main__":
     sorted_entropy_list.insert(0, 'label')
     dataset = df1_back
     dataset.drop(columns=['id', 'proto', 'service', 'state', 'attack_cat'], axis=1, inplace=True)
-    feature_list = [5] #[2,3,4,5, 6] # [5, 10, 20] # [2, 3, 5, 10, 20]
+    feature_list = [2, 3, 5, 6, 10, 15, 20]
     for i in range(0, len(feature_list)):
         print("# of Features: ")
         print(feature_list[i])
@@ -201,7 +203,7 @@ if __name__ == "__main__":
 
         # print("Score: ")
         df1 = dataset[sorted_entropy_list[:feature_list[i]]]
-        kmean(df1)
+        kmean(df1, feature_list[i])
         # print("-----------------")
 
 plt.show()

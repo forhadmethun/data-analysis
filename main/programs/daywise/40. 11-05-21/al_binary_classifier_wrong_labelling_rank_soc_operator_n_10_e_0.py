@@ -1,10 +1,12 @@
 from copy import deepcopy
+from functools import partial
 from random import randint
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from modAL import Committee
+from modAL.batch import uncertainty_batch_sampling
 from modAL.models import ActiveLearner
 from modAL.uncertainty import margin_sampling, classifier_uncertainty, classifier_margin, entropy_sampling, \
     classifier_entropy, uncertainty_sampling
@@ -372,7 +374,233 @@ class BinaryAL:
             print('%0.3f' % (learner_score), end=",")
         return fs
         # print("END: Q")
+
+    def al_qbc_proba(self, data, target, X_train, y_train, X_full, y_full, train_idx, committee_strategy, proba):
+        acc = []
+        pre = []
+        rec = []
+        fs = []
+
+        X_pool = deepcopy(X_full)
+        y_pool = deepcopy(y_full)
+
+        # initializing Committee members
+        n_members = 2
+        learner_list = list()
+
+        for member_idx in range(n_members):
+            # initial training data
+            # n_initial = 5
+            # train_idx = np.random.choice(range(X_pool.shape[0]), size=n_initial, replace=False)
+            # X_train = X_pool[train_idx]
+            # y_train = y_pool[train_idx]
+
+            # creating a reduced copy of the data with the known instances removed
+            X_pool = np.delete(X_pool, train_idx, axis=0)
+            y_pool = np.delete(y_pool, train_idx)
+
+            # initializing learner
+            learner = ActiveLearner(
+                estimator=RandomForestClassifier(),
+                # query_strategy=vote_entropy_sampling,
+
+                X_training=X_train, y_training=y_train
+            )
+            learner_list.append(learner)
+            # assembling the committee
+        committee = Committee(
+            learner_list=learner_list,
+            query_strategy=committee_strategy
+        )
+
+        # print('Committee initial predictions, accuracy = %1.3f' % committee.score(data, target))
+        # print('%1.3f' % committee.score(data, target))
+
+        n_queries = self.query_number
+        for idx in range(n_queries):
+            query_idx, query_instance = committee.query(X_pool)
+
+            labeled_y = y_pool[query_idx].reshape(1, )
+
+            rand_int = randint(0, 100)
+            if (rand_int <= proba):
+                if (y_pool[query_idx][0] == 1):
+                    y_pool[query_idx][0] = 0
+                    labeled_y = np.array((0)).reshape(1, )
+                else:
+                    y_pool[query_idx][0] = 1
+                    labeled_y = np.array((1)).reshape(1, )
+
+            # learner.teach(
+            #     X=X_pool[query_idx].reshape(1, -1),
+            #     y=labeled_y
+            # )
+
+
+            committee.teach(
+                X=X_pool[query_idx].reshape(1, -1),
+                y=labeled_y
+            )
+            # remove queried instance from pool
+            X_pool = np.delete(X_pool, query_idx, axis=0)
+            y_pool = np.delete(y_pool, query_idx)
+            # learner_score = committee.score(data, target)
+            # print('Committee %d th query predictions, accuracy = %1.3f' % (idx , learner_score))
+            precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
+            learner_score = accuracy
+            acc.append(learner_score)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
+            print('%0.3f' % (learner_score), end=",")
+        return acc, pre, rec, fs
+        # print("END: Q")
     ## END: QBC
+
+    def al_rank_proba(self, data, target, X_train, y_train, X_full, y_full, train_idx, committee_strategy, proba, proba_e , proba_n , e  , n):
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, proba, proba, proba_e, proba_n , e , n)
+
+    def active_learn_rank_based(self, df1, first_item_index_of_each_category, method, raw_sample_size):
+        train_idx = first_item_index_of_each_category
+
+        data = df1.values[:, 1:]
+        target = df1['label'].values
+
+        X_full = df1.values[:, 1:]
+        y_full = df1['label'].values
+
+        X_train = df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = df1['label'].values[train_idx]
+
+        return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size)
+
+    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx, N_RAW_SAMPLES, proba, proba_e , proba_n, e, n):
+        acc = []
+        pre = []
+        rec = []
+        fs = []
+        BATCH_SIZE = 5
+        preset_batch = partial(uncertainty_batch_sampling, n_instances=BATCH_SIZE)
+
+        learner = ActiveLearner(
+            estimator=RandomForestClassifier(),
+
+            X_training=X_train,
+            y_training=y_train,
+
+            query_strategy=preset_batch
+        )
+
+        # N_RAW_SAMPLES = 80
+        N_QUERIES = N_RAW_SAMPLES // BATCH_SIZE
+        unqueried_score = learner.score(X_full, y_full)
+        performance_history = [unqueried_score]
+
+        # Isolate our examples for our labeled dataset.
+        n_labeled_examples = X_full.shape[0]
+        training_indices = np.random.randint(low=0, high=n_labeled_examples + 1, size=5)
+
+        X_train = X_full[training_indices]
+        y_train = y_full[training_indices]
+
+        # Isolate the non-training examples we'll be querying.
+        X_pool = np.delete(X_full, training_indices, axis=0)
+        y_pool = np.delete(y_full, training_indices, axis=0)
+
+
+        for index in range(N_QUERIES):
+            query_index, query_instance = learner.query(X_pool)
+
+            # Teach our ActiveLearner model the record it has requested.
+            X, y = X_pool[query_index], y_pool[query_index]
+
+            labeled_y = np.array([])
+
+            for i in range(0, e):
+                if (randint(0, 100) <= proba_e):
+                    if (y_pool[query_index[i]] == 1):
+                        y_pool[query_index[i]] = 0
+                        labeled_y = np.append(labeled_y, 0)
+                    else:
+                        labeled_y = np.append(labeled_y, 1)
+                else:
+                    labeled_y = np.append(labeled_y, y_pool[query_index[i]])
+
+            r_list = []
+            for j in range(0, n):
+                i = j + e
+                np1 = randint(0, 100)
+                np2 = randint(0, 100)
+                both_true =  np1 >= proba_n and np2 >= proba_n
+                both_false =  np1 < proba_n and np2 < proba_n
+
+                if both_true or both_false:
+                    # dujnoei vul kore agree korse
+                    # ekjon vul arekjon thik
+                    # dujonei thik
+                    if (proba_n * proba_n)// 100 > randint(0, 100):
+                        if (y_pool[query_index[i]] == 1):
+                            y_pool[query_index[i]] = 0
+                            labeled_y = np.append(labeled_y, 0)
+                        else:
+                            labeled_y = np.append(labeled_y, 1)
+                    else:
+                        if (y_pool[query_index[i]] == 1):
+                            y_pool[query_index[i]] = 1
+                            labeled_y = np.append(labeled_y, 1)
+                        else:
+                            labeled_y = np.append(labeled_y, 0)
+
+                else:
+                    r_list.append(i)
+
+                # if (randint(0, 100) <= proba_n):
+                #     if (y_pool[query_index[i]] == 1):
+                #         y_pool[query_index[i]] = 0
+                #         labeled_y = np.append(labeled_y, 0)
+                #     else:
+                #         labeled_y = np.append(labeled_y, 1)
+                # else:
+                #     labeled_y = np.append(labeled_y, y_pool[query_index[i]])
+            # labeled_y =y
+            # rand_int = randint(0, 100)
+            # if (rand_int <= proba):
+            #     labeled_y = np.array([])
+            #     for idx in query_index:
+            #         if (y_pool[idx] == 1):
+            #             y_pool[idx] = 0
+            #             labeled_y = np.append(labeled_y, 0)
+            #         else:
+            #             y_pool[idx] = 1
+            #             # labeled_y = np.array((1)).reshape(1, )
+            #             labeled_y = np.append(labeled_y, 1)
+            X = np.delete(X, r_list, axis=0)
+            xx = 0
+            learner.teach(
+                X=X,
+                y=labeled_y
+            )
+
+
+            # learner.teach(X=X, y=y)
+
+            # Remove the queried instance from the unlabeled pool.
+            X_pool = np.delete(X_pool, query_index, axis=0)
+            y_pool = np.delete(y_pool, query_index)
+
+            # Calculate and report our model's accuracy.
+            model_accuracy = learner.score(X_full, y_full)
+            print('Accuracy after query {n}: {acc:0.4f}'.format(n=index + 1, acc=model_accuracy))
+            precision, recall, fscore, support, accuracy = self.performance_measure(learner, X_full, y_full)
+            learner_score = accuracy
+            acc.append(learner_score)
+            pre.append(precision)
+            rec.append(recall)
+            fs.append(fscore)
+            # Save our model's performance for plotting.
+            performance_history.append(model_accuracy)
+
+        return  acc, pre, rec, fs
 
     def uncertainty_values(self, data, target, X_train, y_train, X_full, y_full, train_idx):
         print("START: ST")
@@ -461,7 +689,7 @@ class BinaryAL:
         plt.legend()
         plt.show()
 
-    def dumb_plotter_proba(self, performance_measure, start_index, proba):
+    def dumb_plotter_proba(self, performance_measure, start_index, proba, e, n):
 
         for key in performance_measure:
             y = performance_measure[key]
@@ -472,12 +700,28 @@ class BinaryAL:
             plt.plot(x[start_index:len(y) - 1], y[start_index:len(y) - 1],
                      label=key)
 
-        plt.xlabel('Query Iteration')
+        plt.xlabel('Query Batches (wrong labeling by experts & novices, 5% & 20% respectively)')
         plt.ylabel('Performance')
-        plt.title('Pool based selection strategy on binary case(' + str(proba) + '% wrong labeling' + ')')
+        plt.title('Rank based strategy on binary case(' + str(e) + ' experts, ' + str(n) + ' novices)')
         plt.legend()
         plt.show()
 
+    def dumb_plotter_soc(self, performance_measure, start_index, proba, e, n):
+
+        for key in performance_measure:
+            y = performance_measure[key]
+            x = []
+            for i in range(0, len(y)):
+                x.append(i)
+            # y1 = [ ]
+            plt.plot(x[start_index:len(y) - 1], y[start_index:len(y) - 1],
+                     label=key)
+
+        plt.xlabel('Query Batches (wrong labeling by experts & novices, 0% & 10% respectively)')
+        plt.ylabel('accuracy')
+        plt.title('Rank based strategy on binary case')
+        plt.legend()
+        plt.show()
 
     def learnAndPlot(self):
         # for i in range(0, len(self.feature_list)):
@@ -511,6 +755,34 @@ class BinaryAL:
         X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
         y_train = self.df1['label'].values[train_idx]
         return self.al_pool_proba(data, target, X_train, y_train, X_full, y_full, train_idx, classifier, sampling_strategy, proba)
+
+    def learn_qbc_proba(self, classifier, sampling_strategy, proba):
+
+        train_idx = self.first_item_index_of_each_category
+
+        data = self.df1.values[:, 1:]
+        target = self.df1['label'].values
+
+        X_full = self.df1.values[:, 1:]
+        y_full = self.df1['label'].values
+
+        X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = self.df1['label'].values[train_idx]
+        return self.al_qbc_proba(data, target, X_train, y_train, X_full, y_full, train_idx, consensus_entropy_sampling, proba)
+
+    def learn_rank_proba(self, classifier, sampling_strategy, proba, proba_e , proba_n , e, n):
+
+        train_idx = self.first_item_index_of_each_category
+
+        data = self.df1.values[:, 1:]
+        target = self.df1['label'].values
+
+        X_full = self.df1.values[:, 1:]
+        y_full = self.df1['label'].values
+
+        X_train = self.df1.values[:, 1:][train_idx]  # item from second column as the first column is the label..
+        y_train = self.df1['label'].values[train_idx]
+        return self.al_rank_proba(data, target, X_train, y_train, X_full, y_full, train_idx, consensus_entropy_sampling, proba,  proba_e , proba_n , e, n)
 
     def learn_and_plot_pool(self, classifier, sampling_strategy):
 
@@ -564,22 +836,72 @@ class BinaryAL:
 #
 # al1 = BinaryAL(75, 150)
 # al1.learnAndPlot()
+for x in range(0, 5):
+    al1 = BinaryAL(10, 220)
+    # al1.learnAndPlot()
 
-al1 = BinaryAL(10, 200)
-# al1.learnAndPlot()
+    al2 = BinaryAL(10, 220)
+    # al2.learnAndPlot()
 
-al2 = BinaryAL(10, 200)
-# al2.learnAndPlot()
+    al3 = BinaryAL(10, 220)
+    # al3.learnAndPlot()
 
-al3 = BinaryAL(10, 200)
-# al3.learnAndPlot()
+    al4 = BinaryAL(10, 220)
+    al5 = BinaryAL(10, 220)
+    al6 = BinaryAL(10, 220)
+    # al4.learnAndPlot()
 
-al4 = BinaryAL(10, 200)
-al5 = BinaryAL(10, 200)
-al6 = BinaryAL(10, 200)
-# al4.learnAndPlot()
+    acc, pre, rec, fs = al1.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 200, 0, 10, 1, 4)
+    dic = {
+        'accuracy': acc,
+        'precision': pre,
+        'recall': rec,
+        'f1 score': fs
 
-# acc, pre, rec, fs = al1.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 5)
+    }
+    # al1.dumb_plotter_proba(dic,1, 5, 1, 4)
+
+    acc2, pre, rec, fs = al2.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 200, 0, 10, 2, 3)
+    dic = {
+        'accuracy': acc2,
+        'precision': pre,
+        'recall': rec,
+        'f1 score': fs
+
+    }
+    # al1.dumb_plotter_proba(dic, 1, 10, 2, 3)
+
+    acc3, pre, rec, fs = al3.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 200, 0, 10, 3, 2)
+    dic = {
+        'accuracy': acc3,
+        'precision': pre,
+        'recall': rec,
+        'f1 score': fs
+
+    }
+    # al1.dumb_plotter_proba(dic, 1, 15, 3, 2)
+
+    acc4, pre, rec, fs = al4.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 200, 0, 10, 4, 1)
+    dic = {
+        'accuracy': acc4,
+        'precision': pre,
+        'recall': rec,
+        'f1 score': fs
+
+    }
+    # al1.dumb_plotter_proba(dic, 1, 20, 4, 1)
+
+
+    dic = {
+        '1 experts, 8 novice': acc,
+        '2 experts, 6 novice': acc2,
+        '3 experts, 4 novice': acc3,
+        '4 experts, 2 novice': acc4,
+
+    }
+    # for i in range(0, 5):
+    al1.dumb_plotter_soc(dic, 1, 20, 4, 1)
+# acc, pre, rec, fs = al5.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 25)
 # dic = {
 #     'accuracy': acc,
 #     'precision': pre,
@@ -587,47 +909,7 @@ al6 = BinaryAL(10, 200)
 #     'f1 score': fs
 #
 # }
-# al1.dumb_plotter_proba(dic, 5, 5)
-
-acc, pre, rec, fs = al2.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 10)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 5, 10)
-
-acc, pre, rec, fs = al3.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 15)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 5, 15)
-
-acc, pre, rec, fs = al4.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 20)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 5, 20)
-
-acc, pre, rec, fs = al5.learn_pool_proba(RandomForestClassifier(), uncertainty_sampling, 25)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 5, 25)
+# al1.dumb_plotter_proba(dic, 5, 25)
 
 #
 # dic = {

@@ -474,7 +474,7 @@ class BinaryAL:
 
         return self.al_rank(data, target, X_train, y_train, X_full, y_full, train_idx, raw_sample_size)
 
-    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx, N_RAW_SAMPLES=80, proba = 5):
+    def al_rank(self, data, target, X_train, y_train, X_full, y_full, train_idx, N_RAW_SAMPLES=120, proba = 5):
         acc = []
         pre = []
         rec = []
@@ -654,7 +654,7 @@ class BinaryAL:
 
         plt.xlabel('Query Batches( 3 instances each batch)')
         plt.ylabel('Performance')
-        plt.title('Rank based strategy on binary case(' + str(proba) + '% wrong labeling' + ')')
+        plt.title('Rank batch-mode sampling on binary case(' + str(proba) + '% wrong labeling' + ')')
         plt.legend()
         plt.show()
 
@@ -786,15 +786,15 @@ al5 = BinaryAL(10, 120)
 al6 = BinaryAL(10, 120)
 # al4.learnAndPlot()
 
-acc, pre, rec, fs = al1.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 5)
-dic = {
-    'accuracy': acc,
-    'precision': pre,
-    'recall': rec,
-    'f1 score': fs
-
-}
-al1.dumb_plotter_proba(dic, 5, 5)
+# acc, pre, rec, fs = al1.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 5)
+# dic = {
+#     'accuracy': acc,
+#     'precision': pre,
+#     'recall': rec,
+#     'f1 score': fs
+#
+# }
+# al1.dumb_plotter_proba(dic, 5, 5)
 
 acc, pre, rec, fs = al2.learn_rank_proba(RandomForestClassifier(), uncertainty_sampling, 10)
 dic = {
@@ -834,7 +834,7 @@ dic = {
     'f1 score': fs
 
 }
-al1.dumb_plotter_proba(dic, 5, 25)
+al1.dumb_plotter_proba(dic, 0, 25)
 
 #
 # dic = {

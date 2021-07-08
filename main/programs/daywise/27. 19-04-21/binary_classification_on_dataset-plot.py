@@ -1,5 +1,7 @@
 import pandas as pd
 import json
+
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 from numpy import *
 from sklearn.model_selection import train_test_split
@@ -25,6 +27,7 @@ models = [
     ('SVM', SVC()),
     ('KNN', KNeighborsClassifier()),
     ('DT', DecisionTreeClassifier()),
+    ('RF', RandomForestClassifier()),
 ]
 
 def applyModels(X, y, n):
@@ -34,7 +37,8 @@ def applyModels(X, y, n):
         'NB': 0,
         'SVM': 0,
         'DT': 0,
-        'KNN': 0
+        'KNN': 0,
+        'RF': 0,
     }
     for name, model in models:
         clf = model
@@ -139,13 +143,14 @@ if __name__ == "__main__":
     dt_score_list = []
     svm_score_list = []
     lr_score_list = []
-    fisher_list = [3, 10, 15, 20, 25]
+    fisher_list = [3, 6, 9, 15, 20, 25]
     fl = {
         'LR': [],
         'NB': [],
         'SVM': [],
         'DT': [],
-        'KNN': []
+        'KNN': [],
+        'RF': []
     }
     header_attack_cat = df_for_normalize['attack_cat'].tolist()
     attack_categories = set(header_attack_cat)
@@ -167,6 +172,6 @@ if __name__ == "__main__":
         # plt.bar([p+bla for p in x], fl[s],width=1 / (length + 1), label=s)
         plt.bar([p+bla for p in x], fl[s],width= .4, label=s)
         # bla = bla + 1 / (length + 1)
-        bla = bla + .4
+        bla = bla + .25
     plt.legend()
     plt.show()
